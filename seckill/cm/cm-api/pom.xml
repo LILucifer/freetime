@@ -3,22 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>freetime</artifactId>
+        <artifactId>cm</artifactId>
         <groupId>com.weixiao.smart</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sp</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>sp-api</module>
-        <module>sp-svc</module>
-    </modules>
+    <artifactId>cm-api</artifactId>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-    </properties>
 
 </project>
