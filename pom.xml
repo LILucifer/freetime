@@ -12,6 +12,7 @@
         <module>sp</module>
         <module>SpringBoot</module>
         <module>webmagic-learning</module>
+        <module>seckill</module>
     </modules>
 
 
