@@ -18,9 +18,7 @@
     <mvc:annotation-driven />
 
     <amq:connectionFactory id="amqConnectionFactory"
-                           brokerURL="tcp://127.0.0.1:61616"
-                           userName="admin"
-                           password="admin" />
+                           brokerURL="tcp://127.0.0.1:61616" />
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory"
@@ -29,7 +27,7 @@
         <property name="sessionCacheSize" value="100" />
     </bean>
 
-    <!-- 定义消息队列（Queue） -->
+    <!-- 定义消息队列（topic） -->
     <bean id="topic" class="org.apache.activemq.command.ActiveMQTopic">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
@@ -43,13 +41,21 @@
         <property name="defaultDestination" ref="topic" />
         <property name="receiveTimeout" value="10000" />
         <!-- true是topic，false是queue，默认是false，此处显示写出false -->
-        <property name="pubSubDomain" value="false" />
+        <property name="pubSubDomain" value="true" />
+        <property name="messageConverter" ref="activeMqMessageConverter"/>
     </bean>
 
-    <bean id="producerService" class="com.unionpay.demo.activemq.producer.ProducerService">
+    <!--  Message 转换器  -->
+    <bean id="activeMqMessageConverter" class="com.weixiao.smart.service.amq.ActiveMqMessageConverter"/>
+
+    <!-- 消息消费监听器  -->
+    <bean id="messageMsgListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <constructor-arg>
+            <ref bean="consumerService"/>
+        </constructor-arg>
+        <property name="messageConverter" ref="activeMqMessageConverter" />
+        <property name="defaultListenerMethod" value="sendMessage" />
     </bean>
 
-    <bean id="consumerService" class="com.unionpay.demo.activemq.consumer.ConsumerService">
-    </bean>
 
 </beans>
