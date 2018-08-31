@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
     private static Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring-context.xml");
         context.start();
         logger.info("cm-svc was started");
     }
