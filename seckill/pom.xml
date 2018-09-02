@@ -14,19 +14,23 @@
     <modules>
         <module>cm</module>
         <module>gsk</module>
+        <module>common</module>
     </modules>
 
     <properties>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
         <servlet.version>4.0.1</servlet.version>
         <dubbo.version>2.6.2</dubbo.version>
         <redis.version>2.9.0</redis.version>
-        <springframework.version>3.2.4.RELEASE</springframework.version>
+        <springframework.version>4.1.1.RELEASE</springframework.version>
         <activemq.core.version>5.7.0</activemq.core.version>
         <activemq.pool.version>5.12.1</activemq.pool.version>
         <spring.date.redis.version>1.6.2.RELEASE</spring.date.redis.version>
         <alibaba.json.version>1.2.49</alibaba.json.version>
+        <xbean.version>4.6</xbean.version>
+        <javax.servlet.version>3.0.1</javax.servlet.version>
     </properties>
     <dependencies>
 
@@ -61,6 +65,22 @@
             <version>${springframework.version}</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>3.0-alpha-1</version>
+        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
@@ -68,11 +88,33 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--log4j-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -89,6 +131,16 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${alibaba.json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.0</version>
         </dependency>
 
 

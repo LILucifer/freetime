@@ -1,5 +1,6 @@
 package com.weixiao.smart.service.amq;
 
+import com.weixiao.smart.model.OrderMessage;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
 

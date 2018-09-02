@@ -32,11 +32,18 @@
             <value>Topic</value>
         </constructor-arg>
     </bean>
+    <!-- 定义消息队列（Queue） -->
+    <bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 设置消息队列的名字 -->
+        <constructor-arg>
+            <value>queue</value>
+        </constructor-arg>
+    </bean>
 
     <!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="defaultDestination" ref="topic" />
+        <property name="defaultDestination" ref="queue" />
         <property name="receiveTimeout" value="10000" />
         <!-- true是topic，false是queue，默认是false，此处显示写出false -->
         <property name="pubSubDomain" value="true" />
@@ -46,14 +53,22 @@
     <!--  Message 转换器  -->
     <bean id="activeMqMessageConverter" class="com.weixiao.smart.service.amq.ActiveMqMessageConverter"/>
 
-    <!-- 消息消费监听器  -->
+    <!-- 消息消费监听器 消息监听适配器  -->
     <bean id="messageMsgListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
         <constructor-arg>
             <ref bean="consumerService"/>
         </constructor-arg>
         <property name="messageConverter" ref="activeMqMessageConverter" />
-        <property name="defaultListenerMethod" value="sendMessage" />
+        <property name="defaultListenerMethod" value="handleMessage" />
     </bean>
+    <!--消息监听适配器对应的监听容器 可以一直监听消息-->
+    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 注册activemq名称 -->
+        <property name="destination" ref="queue"/>
+        <property name="messageListener" ref="messageMsgListener"/>
+    </bean>
+
 
 
 </beans>
