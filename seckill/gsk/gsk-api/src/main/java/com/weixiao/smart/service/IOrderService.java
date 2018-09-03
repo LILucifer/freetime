@@ -23,4 +23,12 @@ public interface IOrderService {
      * 初始化缓存商品库存数
      */
     public boolean initStocks(String commodityId ,int count , int caccheSeconds);
+
+    /**
+     *检查库存是否满足，并修改缓存中的库存
+     * @param key
+     * @param coun
+     * @return true 修改库存成功；false 库存不足
+     */
+    boolean checkAndReduceStock(String key, int coun);
 }
