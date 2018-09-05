@@ -14,11 +14,11 @@ public class ResultMessage  implements Serializable{
     /**
      * 成功
      */
-    private static final int SUCCESS = 1;
+    public static final int SUCCESS = 1;
     /**
      * 失败
      */
-    private static final int FAIL = 0;
+    public static final int FAIL = 0;
     /**
      * 结果
      */
@@ -61,6 +61,14 @@ public class ResultMessage  implements Serializable{
 
     public void setMap(Map<String, Object> map) {
         this.map = map;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

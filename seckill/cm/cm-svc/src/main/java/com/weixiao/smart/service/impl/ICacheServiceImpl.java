@@ -43,9 +43,42 @@ public class ICacheServiceImpl implements ICacheService {
         return getObjList(key,clazz);
     }
 
-    public ResultMessage checkAndReduceStock(String key, int count) {
+    public ResultMessage checkAndReduceStock(String key , String lockKey,  int count, String requestId)  {
         ResultMessage resultMessage = new ResultMessage();
-        JedisUtil.checkAndReduceStock(key , count);
-        return null;
+        String message = "";
+        int result = ResultMessage.FAIL;
+        while (true) {
+            boolean lock = JedisUtil.tryGetDistributedLock(lockKey, requestId, JedisUtil.EXPIRE_TIME);//获取分布式锁
+            if (lock) {
+                int stock = Integer.parseInt(JedisUtil.get(key));
+                if (stock > 0) {
+                    if ((stock - count) < 0) {//检查库存是否足够
+                        message = "库存不足";
+                        JedisUtil.releaseDistributedLock(lockKey, requestId);//释放锁
+                        break;
+                    }else{
+                        try {
+                            set(key, String.valueOf(stock - count),JedisUtil.LONG_TIME);
+                            JedisUtil.releaseDistributedLock(lockKey, requestId);//释放锁
+                            message = "成功递减库存数，成功获取订单";
+                            result = ResultMessage.SUCCESS;
+                            break;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            JedisUtil.releaseDistributedLock(lockKey, requestId);//释放锁
+                            message = "获取订单失败";
+                            break;
+                        }
+                    }
+                }else{
+                    message = "库存不足";
+                    JedisUtil.releaseDistributedLock(lockKey, requestId);//释放锁
+                    break;
+                }
+            }
+        }
+        resultMessage.setResult(result);
+        resultMessage.setMessage(message);
+        return resultMessage;
     }
 }

@@ -33,11 +33,14 @@ public class JedisUtil {
      */
     public static int LONG_TIME = 3600 * 24;
 
-    private static final String LOCK_SUCCESS = "OK";
-    private static final String SET_IF_NOT_EXIST = "NX";
-    private static final String SET_WITH_EXPIRE_TIME = "PX";
-    private static final long EXPIRE_TIME =2000;
-    private static final Long RELEASE_SUCCESS = 1L;
+    public static final String LOCK_SUCCESS = "OK";
+    public static final String SET_IF_NOT_EXIST = "NX";
+    public static final String SET_WITH_EXPIRE_TIME = "PX";
+    /**
+     * 分布式锁超时时间
+     */
+    public static final long EXPIRE_TIME =1000;
+    public static final Long RELEASE_SUCCESS = 1L;
 
     /**
      * 基本写入缓存方法
@@ -201,27 +204,6 @@ public class JedisUtil {
     }
 
 
-    /**
-     * 秒杀自减库存
-     * @param key
-     * @param count
-     * @return
-     */
-    public static  ResultMessage checkAndReduceStock(String key , String lockKey,  int count, String requestId) {
-        ResultMessage resultMessage = new ResultMessage();
-        String message = "";
-        boolean lock = tryGetDistributedLock(lockKey, requestId, EXPIRE_TIME);
-        if (lock) {
-            int stock = Integer.parseInt(get(key));
-            if (stock > 0) {
-                if ((stock - count) < 0) {//检查库存是否足够
-                    message = "下单失败，库存不足";
-                }else{
-                    set(key, String.valueOf(stock - count),LONG_TIME);
-                }
-            }
-        }
-        return resultMessage;
-    }
+
 }
 

@@ -72,10 +72,13 @@ public interface ICacheService {
     public <T> List<T> getObjList(String key, Class<T> clazz);
 
     /**
-     *
-     * @param key
-     * @param count
+     * 秒杀自减库存
+     * @param key 库存锁key
+     * @param lockKey  分布式锁key
+     * @param count 商品订单数
+     * @param requestId 标识ID
+     * @return
      */
-    public ResultMessage checkAndReduceStock(String key , int count);
+    public ResultMessage checkAndReduceStock(String key, String lockKey, int count, String requestId);
 
 }

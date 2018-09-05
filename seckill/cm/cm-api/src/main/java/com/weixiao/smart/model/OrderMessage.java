@@ -1,7 +1,10 @@
 package com.weixiao.smart.model;
 
+import org.apache.commons.beanutils.BeanMap;
+
 import javax.jms.Message;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author lishixiang0925@126.com.
@@ -50,5 +53,8 @@ public class OrderMessage  implements Serializable{
                 ", userId='" + userId + '\'' +
                 ", count=" + count +
                 '}';
+    }
+    public Map<String , Object> toMap() {
+        return new BeanMap(this);
     }
 }
