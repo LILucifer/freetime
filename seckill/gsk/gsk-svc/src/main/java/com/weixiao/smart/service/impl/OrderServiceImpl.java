@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author lishixiang0925@126.com.
- * @description (这里用一句话描述这个类的作用)
+ * @description (订单Service)
  * @Created 2018-08-28 22:00.
  */
 @Service("orderService")
@@ -39,12 +39,19 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     public boolean initStocks(String commodityId, int count, int caccheSeconds) {
+        String key = "goods_stock" + commodityId;
+        try {
+            icacheService.set("key",count+"",caccheSeconds);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        return false;
     }
 
-    public boolean checkAndReduceStock(String key, int coun) {
-
+    public boolean checkAndReduceStock(String key, int count) {
+        icacheService.checkAndReduceStock(key, count);
         return false;
     }
 }

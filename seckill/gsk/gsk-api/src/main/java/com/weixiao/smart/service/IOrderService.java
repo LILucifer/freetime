@@ -30,5 +30,5 @@ public interface IOrderService {
      * @param coun
      * @return true 修改库存成功；false 库存不足
      */
-    boolean checkAndReduceStock(String key, int coun);
+    boolean checkAndReduceStock(String key, int count);
 }

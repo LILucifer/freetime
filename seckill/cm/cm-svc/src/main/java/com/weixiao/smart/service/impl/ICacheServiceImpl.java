@@ -2,6 +2,7 @@ package com.weixiao.smart.service.impl;
 
 import com.weixiao.smart.service.cache.ICacheService;
 import com.weixiao.smart.utils.JedisUtil;
+import com.weixiao.smart.utils.ResultMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +41,11 @@ public class ICacheServiceImpl implements ICacheService {
 
     public <T> List<T> getObjList(String key, Class<T> clazz) {
         return getObjList(key,clazz);
+    }
+
+    public ResultMessage checkAndReduceStock(String key, int count) {
+        ResultMessage resultMessage = new ResultMessage();
+        JedisUtil.checkAndReduceStock(key , count);
+        return null;
     }
 }

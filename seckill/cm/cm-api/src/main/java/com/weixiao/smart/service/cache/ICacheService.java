@@ -1,5 +1,7 @@
 package com.weixiao.smart.service.cache;
 
+import com.weixiao.smart.utils.ResultMessage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +70,12 @@ public interface ICacheService {
      * @return
      */
     public <T> List<T> getObjList(String key, Class<T> clazz);
+
+    /**
+     *
+     * @param key
+     * @param count
+     */
+    public ResultMessage checkAndReduceStock(String key , int count);
 
 }
