@@ -5,4 +5,6 @@
     <import resource="app-resource.xml"/>
     <!--<import resource="redis.xml"/>-->
     <import resource="activemq.xml"/>
+    <import resource="classpath*:soa-config/soa-consumer.xml"/>
+    <import resource="classpath*:soa-config/soa-provider.xml"/>
 </beans>

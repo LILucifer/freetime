@@ -15,7 +15,6 @@
         <module>gsk-api</module>
         <module>gsk-svc</module>
         <module>gsk-web</module>
-        <module>gsk-web</module>
     </modules>
 
 

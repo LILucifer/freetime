@@ -61,7 +61,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     public boolean initStocks(String commodityId, int count, int caccheSeconds) {
-        String key = "goods_stock" + commodityId;
+        String key = "goods_stock:" + commodityId;
         try {
             icacheService.set(key,count+"",caccheSeconds);
             return true;

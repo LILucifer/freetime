@@ -14,6 +14,7 @@
     <modules>
         <module>sp-api</module>
         <module>sp-svc</module>
+        <!--<module>sp-web</module>-->
     </modules>
 
     <properties>
