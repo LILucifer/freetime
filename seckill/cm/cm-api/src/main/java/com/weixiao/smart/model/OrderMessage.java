@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.BeanMap;
 
 import javax.jms.Message;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -54,7 +55,13 @@ public class OrderMessage  implements Serializable{
                 ", count=" + count +
                 '}';
     }
-    public Map<String , Object> toMap() {
-        return new BeanMap(this);
+
+    public Map<String ,Object> toMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("commodityId", this.commodityId);
+        map.put("userId", this.userId);
+        map.put("count", this.count);
+        return map;
     }
+
 }

@@ -5,6 +5,7 @@ import com.weixiao.smart.service.IOrderService;
 import com.weixiao.smart.service.amq.MessageConsumerService;
 import com.weixiao.smart.model.OrderMessage;
 import com.weixiao.smart.utils.BeanUtils;
+import org.apache.commons.beanutils.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

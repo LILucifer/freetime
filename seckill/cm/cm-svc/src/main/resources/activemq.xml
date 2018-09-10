@@ -16,7 +16,7 @@
     <mvc:annotation-driven />
 
     <amq:connectionFactory id="amqConnectionFactory"
-                           brokerURL="tcp://127.0.0.1:61616" />
+                           brokerURL="tcp://10.186.0.91:61616" />
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory"

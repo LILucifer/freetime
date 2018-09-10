@@ -6,4 +6,7 @@
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:protocol serialization="kryo" name="dubbo"  />
     <dubbo:service interface="com.weixiao.smart.service.cache.ICacheService" ref="icacheService" />
+    <dubbo:service interface="com.weixiao.smart.service.amq.MessageConsumerService" ref="consumerService"/>
+    <dubbo:service interface="com.weixiao.smart.service.amq.MessageProviderService" ref="providerService"/>
+
 </beans>

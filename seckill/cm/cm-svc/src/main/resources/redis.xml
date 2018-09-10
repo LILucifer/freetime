@@ -7,27 +7,27 @@
         <constructor-arg index="0">
             <set>
                <bean class="redis.clients.jedis.HostAndPort">
-                   <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                   <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                    <constructor-arg index="1" type="int" value="7000"/>
                </bean>
                 <bean class="redis.clients.jedis.HostAndPort">
-                    <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                    <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                     <constructor-arg index="1" type="int" value="7001"/>
                 </bean>
                 <bean class="redis.clients.jedis.HostAndPort">
-                    <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                    <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                     <constructor-arg index="1" type="int" value="7002"/>
                 </bean>
                 <bean class="redis.clients.jedis.HostAndPort">
-                    <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                    <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                     <constructor-arg index="1" type="int" value="7003"/>
                 </bean>
                 <bean class="redis.clients.jedis.HostAndPort">
-                    <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                    <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                     <constructor-arg index="1" type="int" value="7004"/>
                 </bean>
                 <bean class="redis.clients.jedis.HostAndPort">
-                    <constructor-arg index="0" type="java.lang.String" value="127.0.0.1"/>
+                    <constructor-arg index="0" type="java.lang.String" value="172.16.91.84"/>
                     <constructor-arg index="1" type="int" value="7005"/>
                 </bean>
             </set>

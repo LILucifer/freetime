@@ -14,6 +14,11 @@ public class Gskstart {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring-context.xml");
         context.start();
-        logger.info("gsk-svc was started success");
+        logger.warn("gsk-svc was started success");
+        try {
+            for(;;){Thread.sleep(Long.MAX_VALUE);}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

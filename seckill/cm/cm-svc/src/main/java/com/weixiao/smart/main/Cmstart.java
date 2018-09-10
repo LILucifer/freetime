@@ -16,8 +16,14 @@ public class Cmstart {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring-context.xml");
         context.start();
-        logger.info("cm-svc was started");
-        MessageProviderService providerService = (MessageProviderService) context.getBean("providerService");
+        logger.warn("cm-svc was started");
+        try {
+            for(;;){Thread.sleep(Long.MAX_VALUE);}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        /*MessageProviderService providerService = (MessageProviderService) context.getBean("providerService");
         for(int i= 0 ; i<10 ;i++){
             OrderMessage orderMessage = new OrderMessage();
             orderMessage.setCommodityId("----"+i);
@@ -29,7 +35,7 @@ public class Cmstart {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 }

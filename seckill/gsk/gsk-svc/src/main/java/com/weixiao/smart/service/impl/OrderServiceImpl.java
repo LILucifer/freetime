@@ -7,6 +7,7 @@ import com.weixiao.smart.service.amq.MessageProviderService;
 import com.weixiao.smart.service.cache.ICacheService;
 import com.weixiao.smart.utils.BeanUtils;
 import com.weixiao.smart.utils.ResultMessage;
+import com.weixiao.smart.utils.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class OrderServiceImpl implements IOrderService {
      * 订单分布式锁key
      */
     private static final String LOCK_KEY = "stock_lock_key";
+    private static final String STOCK_KEY = "goods_stock:";
 
 
     public ResultMessage createOrder(Map<String, Object> orderMessage) {
@@ -44,24 +46,24 @@ public class OrderServiceImpl implements IOrderService {
     public ResultMessage getOrder(Map<String, Object> objectMap) {
         ResultMessage rmsg = new ResultMessage();
         OrderMessage omsge = BeanUtils.copyProperties(OrderMessage.class, objectMap);
-        String key = "goods_stock" + omsge.getCommodityId();//Redis 缓存商品库存的key
+        String key = STOCK_KEY + omsge.getCommodityId();//Redis 缓存商品库存的key
         boolean result = checkAndReduceStock(key , omsge.getCount());
         if (result) {//成功获取购买库存数，接下来发送MQ生成订单
-            logger.info(omsge.getUserId() + "抢购成功！获取库存数=" + omsge.getCount());
-            providerService.send(objectMap);
+            logger.warn(omsge.getUserId() + "抢购成功！获取库存数=" + omsge.getCount());
+            providerService.send(omsge);
             rmsg.setResult(ResultMessage.SUCCESS);
             rmsg.setMessage( "抢购成功！获取库存数=" + omsge.getCount());
         }else{//获取购买权限失败，返回失败提示
-            logger.info(omsge.getUserId() + "抢购失败");
+            logger.warn(omsge.getUserId() + "抢购失败");
             rmsg.setResult(ResultMessage.FAIL);
             rmsg.setMessage( "抢购失败！");
         }
-        logger.info("create order success");
+
         return rmsg;
     }
 
     public boolean initStocks(String commodityId, int count, int caccheSeconds) {
-        String key = "goods_stock:" + commodityId;
+        String key = STOCK_KEY + commodityId;
         try {
             icacheService.set(key,count+"",caccheSeconds);
             return true;
@@ -73,7 +75,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     public boolean checkAndReduceStock(String key, int count) {
-        String requestId = "GUID";
+        String requestId = UuidUtils.getGuid();
         ResultMessage resultMessage = icacheService.checkAndReduceStock(key, LOCK_KEY, count, requestId);
         logger.info(resultMessage.getMessage());
         if (resultMessage.getResult() == 1) {
