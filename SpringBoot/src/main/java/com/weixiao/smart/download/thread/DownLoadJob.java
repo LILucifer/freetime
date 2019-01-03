@@ -2,6 +2,8 @@ package com.weixiao.smart.download.thread;
 
 import com.weixiao.smart.download.util.DownloadUtil;
 import com.weixiao.smart.download.util.ExecutorResult;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Callable;
 
@@ -10,6 +12,8 @@ import java.util.concurrent.Callable;
  * @description (job)
  * @Created 2018-05-13 19:44.
  */
+//@Configurable
+//@Component
 public class DownLoadJob implements Callable<ExecutorResult>  {
 
     private String url;

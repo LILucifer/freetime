@@ -10,6 +10,8 @@ import org.apache.tomcat.util.collections.SynchronizedQueue;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sun.awt.Mutex;
 import sun.nio.ch.ThreadPool;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,6 +36,7 @@ import java.util.concurrent.locks.*;
 @SpringBootTest(classes = {Application.class})
 public class TestThread {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Test
     public void testMethodThreadPrint() {
         try {
@@ -230,6 +234,32 @@ public class TestThread {
         MergeSort mergeSort = new MergeSort();
         mergeSort.mergeSort(att5);
         System.out.println("MergeSort end ");
+    }
+
+
+    @Test
+    public void testThreadPool(){
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for(  int i=0;i<10;i++) {
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + "  "+ Math.random());
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+        try {
+            executorService.awaitTermination(60,TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

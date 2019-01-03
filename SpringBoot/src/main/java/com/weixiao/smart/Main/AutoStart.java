@@ -15,8 +15,8 @@ import java.util.Date;
  * @Description: TODO(自动发布服务)
  * @date 2018/10/11 14:59
  */
-@Component
-@EnableScheduling
+//@Component
+//@EnableScheduling
 public class AutoStart {
 
     /**

@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @Description: TODO(这里用一句话描述这个类的作用)
  * @date 2018/10/11 17:23
  */
-@SpringBootApplication
-@ComponentScan
+//@SpringBootApplication
+//@ComponentScan
 public class Application {
     public static void main(String[] args) {
 

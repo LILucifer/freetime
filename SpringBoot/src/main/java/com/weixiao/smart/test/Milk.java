@@ -11,6 +11,9 @@ public class Milk extends CondimentDecorator {
         this.berverage = berverage;
     }
 
+    public Milk() {
+    }
+
     public String getDescription() {
         return berverage.getDescription()+"+milk";
     }

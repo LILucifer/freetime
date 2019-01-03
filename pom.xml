@@ -13,6 +13,7 @@
         <module>SpringBoot</module>
         <module>webmagic-learning</module>
         <module>seckill</module>
+        <module>hessian</module>
     </modules>
 
 
