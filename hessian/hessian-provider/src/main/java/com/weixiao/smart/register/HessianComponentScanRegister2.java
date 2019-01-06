@@ -6,6 +6,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import java.util.Arrays;
@@ -18,7 +19,6 @@ import java.util.Set;
  * @description (这里用一句话描述这个类的作用)
  * @Created 2019-01-02 23:44.
  */
-
 public class HessianComponentScanRegister implements ImportBeanDefinitionRegistrar {
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {

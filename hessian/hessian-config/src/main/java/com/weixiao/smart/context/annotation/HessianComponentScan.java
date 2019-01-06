@@ -1,6 +1,5 @@
-package com.weixiao.smart.annotation;
+package com.weixiao.smart.packages;
 
-import com.weixiao.smart.register.HessianComponentScanRegister;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
