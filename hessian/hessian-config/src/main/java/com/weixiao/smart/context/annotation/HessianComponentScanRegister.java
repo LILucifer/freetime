@@ -1,7 +1,11 @@
-package com.weixiao.smart.packages;
+package com.weixiao.smart.context.annotation;
 
+import com.weixiao.smart.reference.HessianReferenceAnnotationBeanPostProcessor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
@@ -21,27 +25,42 @@ import java.util.Set;
 public class HessianComponentScanRegister implements ImportBeanDefinitionRegistrar {
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
-        Set<String> packagesToScan = getPackagesToScan(annotationMetadata);
+        Set<String> packagesToScan = PackagesToScanUtil.getPackagesToScan(annotationMetadata);
         log.info("packagesToScan = {}", packagesToScan);
+        registerReferenceAnnotationBeanPostProcessor(beanDefinitionRegistry);
     }
+
     /**
-     *  get packages of component scan
-     * @param annotationMetadata
-     * @return
+     * Registers {@link HessianReferenceAnnotationBeanPostProcessor} into {@link BeanFactory}
+     *
+     * @param registry {@link BeanDefinitionRegistry}
      */
-    private Set<String> getPackagesToScan(AnnotationMetadata annotationMetadata) {
-        AnnotationAttributes annotationAttributes = AnnotationAttributes
-                .fromMap(annotationMetadata.getAnnotationAttributes(HessianComponentScan.class.getName()));
-        String[] basePackages = annotationAttributes.getStringArray("basePackages");
-        Class<?>[] basePackageClasses = annotationAttributes.getClassArray("basePackageClasses");
-        Set<String> packagesToScan = new LinkedHashSet<String>();
-        packagesToScan.addAll(Arrays.asList(basePackages));
-        for (Class<?> basePackageClass : basePackageClasses) {
-            packagesToScan.add(ClassUtils.getPackageName(basePackageClass));
-        }
-        if (packagesToScan.isEmpty()) {
-            return Collections.singleton(ClassUtils.getPackageName(annotationMetadata.getClassName()));
-        }
-        return packagesToScan;
+    private void registerReferenceAnnotationBeanPostProcessor(BeanDefinitionRegistry registry) {
+
+        // Register @Reference Annotation Bean Processor
+        registerInfrastructureBean(registry,
+                HessianReferenceAnnotationBeanPostProcessor.BEAN_NAME, HessianReferenceAnnotationBeanPostProcessor.class);
+
     }
+
+    /**
+     * Register Infrastructure Bean
+     *
+     * @param beanDefinitionRegistry {@link BeanDefinitionRegistry}
+     * @param beanType               the type of bean
+     * @param beanName               the name of bean
+     */
+    public void registerInfrastructureBean(BeanDefinitionRegistry beanDefinitionRegistry,
+                                                  String beanName,
+                                                  Class<?> beanType) {
+
+        if (!beanDefinitionRegistry.containsBeanDefinition(beanName)) {
+            RootBeanDefinition beanDefinition = new RootBeanDefinition(beanType);
+            beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+            beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
+        }
+
+    }
+
+
 }

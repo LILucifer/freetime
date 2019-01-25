@@ -1,25 +1,26 @@
 package com.weixiao.smart.reference;
 
-import com.weixiao.smart.HessianProperties;
 import com.weixiao.smart.annotation.HessianReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.InjectionMetadata;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
-import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.beans.factory.support.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.core.PriorityOrdered;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertySource;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
@@ -29,6 +30,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,19 +44,24 @@ import static org.springframework.core.annotation.AnnotatedElementUtils.getMerge
  * @Created 2019-01-04 09:01.
  */
 @Slf4j
-public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostProcessorAdapter
-        implements MergedBeanDefinitionPostProcessor, PriorityOrdered, ApplicationContextAware,BeanFactoryAware  , DisposableBean {
-    @Autowired
-    private HessianProperties hessianProperties;
+public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAwareBeanPostProcessorAdapter
+        implements MergedBeanDefinitionPostProcessor, PriorityOrdered, ApplicationContextAware, BeanFactoryAware, DisposableBean, EnvironmentAware {
 
-    private ConfigurableListableBeanFactory beanFactory;
+    private static final String HESSIAN_SERVICE_URL = "hessian.config.serviceUrl";
+    /**
+     * The bean name of {@link HessianReferenceAnnotationBeanPostProcessor}
+     */
+    public static String BEAN_NAME = "hessianReferenceAnnotationBeanPostProcessor";
+
 
     private ApplicationContext applicationContext;
+    private DefaultListableBeanFactory beanFactory;
+    private ConfigurableEnvironment environment;
     private final ConcurrentMap<String, InjectionMetadata> injectionMetadataCache =
             new ConcurrentHashMap<String, InjectionMetadata>(256);
 
-    private final ConcurrentMap<String, HessianReferenceProxyFactoryBean> referenceBeansCache =
-            new ConcurrentHashMap<String, HessianReferenceProxyFactoryBean>();
+    private final ConcurrentMap<String, Object> referenceBeansCache =
+            new ConcurrentHashMap<String, Object>();
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -62,7 +69,7 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
             throw new IllegalArgumentException(
                     "AutowiredAnnotationBeanPostProcessor requires a ConfigurableListableBeanFactory");
         }
-        this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;
+        this.beanFactory = (DefaultListableBeanFactory) beanFactory;
     }
 
     @Override
@@ -71,26 +78,34 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
     }
 
     @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = (ConfigurableEnvironment) environment;
+    }
+
+    @Override
     public PropertyValues postProcessPropertyValues(
             PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeanCreationException {
-
+        getServiceUrl();
         InjectionMetadata metadata = findReferenceMetadata(beanName, bean.getClass(), pvs);
         try {
             metadata.inject(bean, beanName, pvs);
         } catch (BeanCreationException ex) {
             throw ex;
         } catch (Throwable ex) {
-            throw new BeanCreationException(beanName, "Injection of @Reference dependencies failed", ex);
+            throw new BeanCreationException(beanName, "Injection of @HessianReference dependencies failed", ex);
         }
         return pvs;
     }
+
     @Override
     public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
         if (beanType != null) {
+            getServiceUrl();
             InjectionMetadata metadata = findReferenceMetadata(beanName, beanType, null);
             metadata.checkConfigMembers(beanDefinition);
         }
     }
+
     private InjectionMetadata findReferenceMetadata(String beanName, Class<?> clazz, PropertyValues pvs) {
         // Fall back to class name as cache key, for backwards compatibility with custom callers.
         String cacheKey = (StringUtils.hasLength(beanName) ? beanName : clazz.getName());
@@ -151,7 +166,7 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
                 if (reference != null) {
 
                     if (Modifier.isStatic(field.getModifiers())) {
-                            log.warn("@HessianReference annotation is not supported on static fields: " + field);
+                        log.warn("@HessianReference annotation is not supported on static fields: " + field);
                         return;
                     }
 
@@ -190,12 +205,12 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
 
                 if (reference != null && method.equals(ClassUtils.getMostSpecificMethod(method, beanClass))) {
                     if (Modifier.isStatic(method.getModifiers())) {
-                            log.warn("@Reference annotation is not supported on static methods: " + method);
+                        log.warn("@Reference annotation is not supported on static methods: " + method);
                         return;
                     }
                     if (method.getParameterTypes().length == 0) {
-                            log.warn("@Reference  annotation should only be used on methods with parameters: " +
-                                    method);
+                        log.warn("@Reference  annotation should only be used on methods with parameters: " +
+                                method);
                     }
                     PropertyDescriptor pd = BeanUtils.findPropertyForMethod(bridgedMethod, beanClass);
                     elements.add(new ReferenceMethodElement(method, pd, reference));
@@ -237,8 +252,8 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
         protected void inject(Object bean, String beanName, PropertyValues pvs) throws Throwable {
 
             Class<?> referenceClass = field.getType();
-
-            Object referenceBean = buildReferenceBean( beanName,reference, referenceClass);
+            String referenceName = field.getName();
+            Object referenceBean = buildReferenceBean(referenceName, reference, referenceClass);
 
             ReflectionUtils.makeAccessible(field);
 
@@ -268,7 +283,7 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
 
             Class<?> referenceClass = pd.getPropertyType();
 
-            Object referenceBean = buildReferenceBean(beanName ,reference, referenceClass);
+            Object referenceBean = buildReferenceBean(beanName, reference, referenceClass);
 
             ReflectionUtils.makeAccessible(method);
 
@@ -279,24 +294,57 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
     }
 
 
-    private Object buildReferenceBean(String referenceBeanName ,HessianReference reference, Class<?> referenceClass) throws Exception {
+    private Object buildReferenceBean(String referenceBeanName, HessianReference reference, Class<?> referenceClass) throws Exception {
 
-        String referenceBeanCacheKey = generateReferenceBeanCacheKey(reference, referenceClass);
+        //String referenceBeanCacheKey = generateReferenceBeanCacheKey(reference, referenceClass);
 
-        HessianReferenceProxyFactoryBean referenceBean = referenceBeansCache.get(referenceBeanCacheKey);
+        String referenceBeanCacheKey = referenceClass.getName();
 
+        Object referenceBean = referenceBeansCache.get(referenceBeanCacheKey);
         if (referenceBean == null) {
 
-            referenceBean = new HessianReferenceProxyFactoryBean();
-            referenceBean.setServiceUrl(hessianProperties.getServiceUrl() + "/" + referenceBeanName);
-            referenceBean.setServiceInterface(referenceClass);
 
+            String serviceUrlMethod = serviceUrl + "/" + referenceBeanName;
+            try {
+                referenceBean = applicationContext.
+                        getBean(referenceBeanCacheKey);
+            } catch (BeansException e) {
+                if (e instanceof NoSuchBeanDefinitionException) {
+                    registerExportBean(referenceBeanCacheKey, serviceUrlMethod, referenceClass);
+                    referenceBean = applicationContext.
+                            getBean(referenceBeanCacheKey);
+                } else {
+                    e.printStackTrace();
+                }
+            }
             referenceBeansCache.putIfAbsent(referenceBeanCacheKey, referenceBean);
 
         }
 
 
         return referenceBean;
+    }
+
+    /**
+     * 获取 serviceURL
+     */
+    private static String serviceUrl = null;
+
+    private void getServiceUrl() {
+        if (StringUtils.isEmpty(serviceUrl)) {
+            serviceUrl = "http://127.0.0.1:8080";
+            MutablePropertySources sources = environment.getPropertySources();
+            String temp = "applicationConfig: [classpath:/application.yaml]";
+
+            Iterator<PropertySource<?>> iterator = sources.iterator();
+            while (iterator.hasNext()) {
+                PropertySource<?> source = iterator.next();
+                if (source.getName().contains("applicationConfig") && source.containsProperty(HESSIAN_SERVICE_URL)) {
+                    serviceUrl = String.valueOf(source.getProperty(HESSIAN_SERVICE_URL));
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -315,6 +363,7 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
         return key;
 
     }
+
     private static String resolveInterfaceName(HessianReference reference, Class<?> beanClass)
             throws IllegalStateException {
 
@@ -333,6 +382,24 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
 
     }
 
+    /**
+     * register the bean of HessianReferenceProxyFactoryBean in container
+     *
+     * @param hessianReferenceBeanName
+     * @param serviceUrl
+     * @param interfaceClass
+     */
+    private void registerExportBean(String hessianReferenceBeanName, String serviceUrl, Class<?> interfaceClass) {
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(HessianReferenceProxyFactoryBean.class);
+        AbstractBeanDefinition beanProxyDefinition = beanDefinitionBuilder.getBeanDefinition();
+        MutablePropertyValues propertyValues = new MutablePropertyValues();
+        propertyValues.addPropertyValue("serviceUrl", serviceUrl);
+        propertyValues.addPropertyValue("serviceInterface", interfaceClass);
+        beanProxyDefinition.setPropertyValues(propertyValues);
+        beanFactory.registerBeanDefinition(hessianReferenceBeanName, beanProxyDefinition);
+        log.info("HessianReference was initialized : beanName = {}  interfaceClass = {}", hessianReferenceBeanName, interfaceClass.getName());
+    }
+
 
     @Override
     public int getOrder() {
@@ -346,97 +413,4 @@ public class HessianReferenceProxyRegister extends InstantiationAwareBeanPostPro
         log.info(getClass() + " was destroying!");
 
     }
-
-
-
-
-
-
-//
-//    private ClassLoader classLoader;
-//    private Environment environment;
-//    private ResourceLoader resourceLoader;
-//
-//    @Override
-//    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
-//        Set<String> packagesToScan = PackagesToScanUtil.getPackagesToScan(annotationMetadata);
-//        registerHessianReferenceBean(packagesToScan, registry);
-//
-//
-//    }
-//
-//    /**
-//     * Registers Beans whose classes was annotated {@link com.weixiao.smart.annotation.HessianReference}
-//     *
-//     * @param packagesToScan The base packages to scan
-//     * @param registry       {@link BeanDefinitionRegistry}
-//     */
-//    private void registerHessianReferenceBean(Set<String> packagesToScan, BeanDefinitionRegistry registry) {
-//        HessianReferenceBeanDefinitionScanner hessianReferenceScanner =
-//                new HessianReferenceBeanDefinitionScanner(registry, environment);
-//        hessianReferenceScanner.addIncludeFilter(new AnnotationTypeFilter(HessianReference.class));
-//
-//        for (String packageToScan : packagesToScan) {
-//
-//            Set<BeanDefinitionHolder> beanDefinitionHolders = hessianReferenceScanner.doScan(packageToScan);
-//
-//            for (BeanDefinitionHolder beanDefinitionHolder : beanDefinitionHolders) {
-//                registerHessianBean(beanDefinitionHolder, registry);
-//            }
-//
-//            log.info(beanDefinitionHolders.size() + " annotated @HessianReference Components { " +
-//                    beanDefinitionHolders +
-//                    " } were scanned under package[" + packageToScan + "]");
-//        }
-//
-//    }
-//
-//    /**
-//     * @param beanDefinitionHolder
-//     * @param registry
-//     */
-//    private void registerHessianBean(BeanDefinitionHolder beanDefinitionHolder, BeanDefinitionRegistry registry) {
-//
-//    }
-//
-//    private AbstractBeanDefinition buildServiceBeanDefinition(Class<?> interfaceClass,
-//                                                              String annotatedServiceBeanName) {
-//        BeanDefinitionBuilder beanDefinitionBuilder = rootBeanDefinition(HessianReferenceProxyFactoryBean.class)
-//                .addPropertyValue("serviceUrl", hessianProperties.getServiceUrl() + "/" + annotatedServiceBeanName)
-//                .addPropertyValue("serviceInterface", interfaceClass);
-//        return beanDefinitionBuilder.getBeanDefinition();
-//
-//    }
-//
-//
-//    @Override
-//    public void setBeanClassLoader(ClassLoader classLoader) {
-//        this.classLoader = classLoader;
-//    }
-//
-//    @Override
-//    public void setEnvironment(Environment environment) {
-//        this.environment = environment;
-//    }
-//
-//    @Override
-//    public void setResourceLoader(ResourceLoader resourceLoader) {
-//        this.resourceLoader = resourceLoader;
-//    }
-
-
-    //    private ApplicationContext applicationContext;
-//    private Set<String> packagesToScan;
-//
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        Map<String, Object> hessianReferenceBeanMap = applicationContext.getBeansWithAnnotation(HessianReference.class);
-//        log.info("hessianReferenceBeanMap = {}", hessianReferenceBeanMap);
-//    }
-//
-//    @Override
-//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-//        this.applicationContext = applicationContext;
-//        packagesToScan = PackagesToScanUtil.packagesToScan;
-//    }
 }

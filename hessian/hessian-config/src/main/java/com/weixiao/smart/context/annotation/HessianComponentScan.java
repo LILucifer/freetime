@@ -1,4 +1,4 @@
-package com.weixiao.smart.packages;
+package com.weixiao.smart.context.annotation;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;

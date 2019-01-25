@@ -30,6 +30,11 @@
             <artifactId>hessian-demo-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.weixiao.smart</groupId>
+            <artifactId>hessian-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

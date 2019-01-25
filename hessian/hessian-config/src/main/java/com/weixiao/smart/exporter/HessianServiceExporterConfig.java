@@ -14,9 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author lishixiang0925@126.com.
@@ -41,11 +39,11 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
         Map<String, Object> beansWithAnnotationMap = applicationContext.getBeansWithAnnotation(HessianService.class);
 
         for (Map.Entry<String, Object> entry : beansWithAnnotationMap.entrySet()) {
-            HessianServiceExporterRegisterHandler(entry);
+            hessianServiceExporterRegisterHandler(entry);
         }
     }
 
-    private void HessianServiceExporterRegisterHandler(Map.Entry<String, Object> entry) {
+    private void hessianServiceExporterRegisterHandler(Map.Entry<String, Object> entry) {
         Class<? extends Object> clazz = entry.getValue().getClass();
         Class<? extends Object>[] interfaces = clazz.getInterfaces();
         Class<?> interfaceClass = null;
