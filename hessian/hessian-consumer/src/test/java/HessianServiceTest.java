@@ -1,4 +1,5 @@
 import com.weixiao.smart.Application;
+import com.weixiao.smart.annotation.HessianReference;
 import com.weixiao.smart.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -16,8 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class HessianServiceTest {
-    @Autowired
+//    @Autowired
+//    private IUserService userService;
+
+    @HessianReference
     private IUserService userService;
+
+    @Autowired
+    private IUserService userService2;
 
     @Test
     public void testGetUserName(){

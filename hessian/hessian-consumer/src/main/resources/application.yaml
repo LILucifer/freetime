@@ -1,2 +1,7 @@
 server:
   port: 8081
+
+
+hessian:
+  config:
+    serviceUrl : http://127.0.0.1:8080
