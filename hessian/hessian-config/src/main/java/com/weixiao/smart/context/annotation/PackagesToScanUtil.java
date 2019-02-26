@@ -1,4 +1,4 @@
-package com.weixiao.smart.packages;
+package com.weixiao.smart.context.annotation;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

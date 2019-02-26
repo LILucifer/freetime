@@ -1,4 +1,4 @@
-package com.weixiao.smart.packages;
+package com.weixiao.smart.context.annotation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

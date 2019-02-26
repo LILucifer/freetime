@@ -11,6 +11,7 @@
         <module>hessian-provider</module>
         <module>hessian-consumer</module>
         <module>hessian-demo-api</module>
+        <module>hessian-config</module>
     </modules>
 
     <parent>
