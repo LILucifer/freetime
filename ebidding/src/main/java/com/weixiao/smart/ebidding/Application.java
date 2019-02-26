@@ -1,4 +1,4 @@
-package com.gpdi.ebidding.pay;
+package com.weixiao.smart.ebidding;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,7 @@
-package com.gpdi.ebidding.pay.intercept;
+package com.weixiao.smart.ebidding.intercept;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,7 +19,6 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter {
-    //RequestHandlerInterceptorAdapter
 
 
     /**
@@ -44,20 +44,20 @@ public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         //请求拦截解密验签
-        ServletInputStream object = request.getInputStream();
-
-        String result2 = request.getQueryString();
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = object.read(buffer)) != -1) {
-            result.write(buffer, 0, length);
-        }
-        String str = result.toString(StandardCharsets.UTF_8.name());
-
-
-        log.info("getInputStream request result : {}", str);
-        log.info("getQueryString request result : {}", result2);
+//        ServletInputStream object = request.getInputStream();
+//
+//        String result2 = request.getQueryString();
+//        ByteArrayOutputStream result = new ByteArrayOutputStream();
+//        byte[] buffer = new byte[1024];
+//        int length;
+//        while ((length = object.read(buffer)) != -1) {
+//            result.write(buffer, 0, length);
+//        }
+//        String str = result.toString(StandardCharsets.UTF_8.name());
+//
+//
+//        log.info("getInputStream request result : {}", str);
+//        log.info("getQueryString request result : {}", result2);
         return true;
     }
 
@@ -85,7 +85,7 @@ public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
         //请求完成 加密后返回数据
-        log.info("finished request and response ");
+        log.info("finished request and response {}" );
         super.afterCompletion(request, response, handler, ex);
     }
 }

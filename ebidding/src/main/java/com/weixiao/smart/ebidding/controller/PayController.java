@@ -1,5 +1,6 @@
-package com.gpdi.ebidding.pay.controller;
+package com.weixiao.smart.ebidding.controller;
 
+import com.weixiao.smart.ebidding.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class PayController {
 
 
-    @RequestMapping(value = "/testPay")
-    public String testPay(@RequestParam("userId") String userId){
-        log.info("userId = {}",userId);
-        return "testPay";
+    @RequestMapping(value = "/testPay" ,method = RequestMethod.POST)
+    public String testPay(@RequestBody Student student){
+        log.info("student = {}",student.toString());
+        return student.toString();
     }
 }

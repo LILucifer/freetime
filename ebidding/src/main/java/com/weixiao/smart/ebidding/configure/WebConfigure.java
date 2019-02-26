@@ -1,6 +1,6 @@
-package com.gpdi.ebidding.pay.configure;
+package com.weixiao.smart.ebidding.configure;
 
-import com.gpdi.ebidding.pay.intercept.RequestHandlerInterceptorAdapter;
+import com.weixiao.smart.ebidding.intercept.RequestHandlerInterceptorAdapter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,7 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebConfigure  extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RequestHandlerInterceptorAdapter());
+        //registry.addInterceptor(new RequestHandlerInterceptorAdapter());
         super.addInterceptors(registry);
     }
+
 }
