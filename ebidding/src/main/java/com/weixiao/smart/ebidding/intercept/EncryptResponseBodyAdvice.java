@@ -1,7 +1,8 @@
 package com.weixiao.smart.ebidding.intercept;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -38,8 +39,15 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            String responseStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
+//            log.info("response data : {} ", responseStr);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+log.info("beforeBodyWrite");
 
-        log.info("response data : {} ", body);
         return body;
     }
 }

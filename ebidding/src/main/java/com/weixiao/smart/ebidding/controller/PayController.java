@@ -18,8 +18,8 @@ public class PayController {
 
 
     @RequestMapping(value = "/testPay" ,method = RequestMethod.POST)
-    public String testPay(@RequestBody Student student){
+    public Student testPay(@RequestBody Student student){
         log.info("student = {}",student.toString());
-        return student.toString();
+        return student;
     }
 }
