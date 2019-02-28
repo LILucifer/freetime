@@ -1,8 +1,10 @@
 import com.weixiao.smart.ebidding.Application;
 import com.weixiao.smart.ebidding.encrypt.RSAEncrypt;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,9 +17,13 @@ import java.util.Map;
  * @date 2019/2/28 11:18
  */
 @Slf4j
+@Data
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class EncryptTest {
+    @Value("${encrypt.isEncrypt}")
+    private boolean isEncrypt;
+
 
     @Test
     public void testEncrypt() {
@@ -36,5 +42,10 @@ public class EncryptTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testValue(){
+        log.info("isEncrypt = {}" , isEncrypt );
     }
 }
