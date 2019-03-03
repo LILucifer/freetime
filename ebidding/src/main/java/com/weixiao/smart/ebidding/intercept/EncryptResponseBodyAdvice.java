@@ -2,6 +2,7 @@ package com.weixiao.smart.ebidding.intercept;
 
 import com.weixiao.smart.ebidding.encrypt.RSAEncrypt;
 import com.weixiao.smart.ebidding.encrypt.properties.EncryptProperties;
+import com.weixiao.smart.ebidding.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,13 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.info("response body :  {} ", JSONObject.fromObject(body));
-        body = RSAEncrypt.encryptedDataByPublicKey(JSONObject.fromObject(body).toString(), encryptProperties.getPublicKey());
-        log.info("response body after encrypt :  {} ", body);
+        //com.weixiao.smart.ebidding.entity.Result 类型外的返回数据都在ResponseBodyAdvice 加密处理后返回。Result类型数据有CustomResultHttpMessageConvert 处理
+        log.info("ResponseBodyAdvice response data :  {} ", body);
+        if (!Result.class.isAssignableFrom(body.getClass()) && encryptProperties.isEncryptOff()) {
+            body = JSONObject.fromObject(body).toString();
+            body = RSAEncrypt.encryptedDataByPublicKey((String) body, encryptProperties.getPublicKey());
+            log.info("ResponseBodyAdvice response encrypt data :  {}", body);
+        }
         return body;
     }
 }

@@ -45,7 +45,7 @@ public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         //请求拦截解密验签
-        log.info("preHandle {}");
+        //log.info("preHandle {}");
         return true;
     }
 
@@ -72,8 +72,7 @@ public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         //请求完成 加密后返回数据
-        log.info("finished request and response {}" );
-
+//        log.info("finished request and response {}" ,handler.getClass() );
 
         super.afterCompletion(request, response, handler, ex);
     }

@@ -5,7 +5,6 @@ import com.weixiao.smart.ebidding.encrypt.properties.EncryptProperties;
 import com.weixiao.smart.ebidding.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -22,12 +21,12 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author lishixiang0925@126.com.
- * @description (自定义HtppMessageConvert for  encrypt response data of com.weixiao.smart.ebidding.entity.Result )
+ * @description (自定义HtppMessageConvert for encrypt response data of com.weixiao.smart.ebidding.entity.Result)
  * @Created 2019-03-02 22:44.
  */
 @Slf4j
 @Component
-public class CustomHttpMessageConvert extends AbstractHttpMessageConverter<Result> {
+public class CustomResultHttpMessageConvert extends AbstractHttpMessageConverter<Result> {
 
     @Autowired
     private EncryptProperties encryptProperties;
@@ -36,7 +35,8 @@ public class CustomHttpMessageConvert extends AbstractHttpMessageConverter<Resul
     protected boolean supports(Class<?> clazz) {
         return Result.class.isAssignableFrom(clazz); //只处理com.weixiao.smart.ebidding.entity.Result 类型  返回数据
     }
-    public CustomHttpMessageConvert() {
+
+    public CustomResultHttpMessageConvert() {
         super(MediaType.ALL);
     }
 
@@ -47,8 +47,14 @@ public class CustomHttpMessageConvert extends AbstractHttpMessageConverter<Resul
 
     @Override
     protected void writeInternal(Result result, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        String body = RSAEncrypt.encryptedDataByPublicKey(JSONObject.fromObject(result).toString(), encryptProperties.getPublicKey());
+        log.info("CustomResultHttpMessageConvert response data :  {} ", JSONObject.fromObject(result));
+        String body = JSONObject.fromObject(result).toString();
+        if (encryptProperties.isEncryptOff()) {
+            body = RSAEncrypt.encryptedDataByPublicKey(body, encryptProperties.getPublicKey());
+            log.info("CustomResultHttpMessageConvert response encrypt data  :  {}", body);
+        }
         StreamUtils.copy(body, StandardCharsets.UTF_8, outputMessage.getBody());
+
 
     }
 

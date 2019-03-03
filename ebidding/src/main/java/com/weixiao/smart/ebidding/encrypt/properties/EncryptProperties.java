@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EncryptProperties {
     /**
-     * 是否开启密钥岩前
+     * 是否开启密钥验签
      */
-    private boolean isEncrypt = false;
+    private boolean encryptOff;
     /**
      * RSA公钥
      */
