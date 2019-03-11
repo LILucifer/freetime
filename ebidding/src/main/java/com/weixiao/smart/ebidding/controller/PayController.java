@@ -1,8 +1,10 @@
 package com.weixiao.smart.ebidding.controller;
 
+import com.weixiao.smart.ebidding.adapter.service.PayService;
 import com.weixiao.smart.ebidding.entity.Result;
 import com.weixiao.smart.ebidding.entity.Student;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pay")
 public class PayController {
 
+//    @Autowired
+//    private PayService payService;
 
     @RequestMapping(value = "/testPay", method = RequestMethod.POST)
     public Result testPay(@RequestBody Student student) {
@@ -32,4 +36,5 @@ public class PayController {
         log.info("student = {}", student.toString());
         return Result.builder().data(student).build();
     }
+
 }

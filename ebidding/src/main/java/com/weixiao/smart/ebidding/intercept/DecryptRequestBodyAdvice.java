@@ -46,6 +46,8 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
     @Override
     public HttpInputMessage beforeBodyRead(final HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
                                            Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+        //设备号验签 验签不通过直接 threw Exception
+
         return new HttpInputMessage() {
             @Override
             public InputStream getBody() throws IOException {

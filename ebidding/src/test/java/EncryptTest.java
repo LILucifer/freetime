@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ReflectionUtils;
 
 import java.util.Map;
 
@@ -17,7 +18,6 @@ import java.util.Map;
  * @date 2019/2/28 11:18
  */
 @Slf4j
-@Data
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class EncryptTest {
@@ -47,5 +47,7 @@ public class EncryptTest {
     @Test
     public void testValue(){
         log.info("isEncrypt = {}" , isEncrypt );
+        ReflectionUtils reflectionUtils;
+        //Class classs = Class.forName("");
     }
 }
