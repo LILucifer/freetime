@@ -16,6 +16,7 @@
         <module>hessian</module>
         <module>ebidding</module>
         <module>springcloud</module>
+        <module>proxy-bot</module>
     </modules>
 
 
