@@ -32,10 +32,12 @@ public class Judgment {
             URL url = new URL(JUDGER_URL);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection(proxy);
             connection.setConnectTimeout(TIME_OUT);
+            //不设置readTimeout的话会有有比较大阻塞风险
+            connection.setReadTimeout(TIME_OUT);
             connection.setRequestProperty("User-Agent", USER_AGENT);
             InputStream inputStream = connection.getInputStream();
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             //log.info("{} proxy ip was useless ,and fail {} times", model ,model.getFailCount());
         }
         return false;

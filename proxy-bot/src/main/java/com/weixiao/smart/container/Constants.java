@@ -36,7 +36,7 @@ public class Constants {
     /**
      * controllerMap min size
      */
-    public static final int CONTROLLER_MAP_MIN_SIZE = 50;
+    public static final int CONTROLLER_MAP_MIN_SIZE = 10;
 
     /**
      * 重新抓取failUrl内容的容错次数

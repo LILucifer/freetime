@@ -5,6 +5,8 @@ import com.weixiao.smart.judger.JudgmentRunnable;
 import com.weixiao.smart.quartz.ProxyIpJsoupQuartz;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -15,12 +17,13 @@ import java.util.concurrent.Executors;
  * @description (这里用一句话描述这个类的作用)
  * @Created 2019-01-08 22:17.
  */
+
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        ProxyIpJsoupQuartz jsoupQuartz = new ProxyIpJsoupQuartz();
-        jsoupQuartz.executor();
+//        ProxyIpJsoupQuartz jsoupQuartz = new ProxyIpJsoupQuartz();
+//        jsoupQuartz.executor();
 
         /*ExecutorService executorService = Executors.newFixedThreadPool(3);
 

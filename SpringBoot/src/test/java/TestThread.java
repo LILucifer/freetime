@@ -262,4 +262,9 @@ public class TestThread {
 
     }
 
+    @Test
+    public void testThreadPool2() {
+        ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<Map<String, Object>>();
+    }
+
 }

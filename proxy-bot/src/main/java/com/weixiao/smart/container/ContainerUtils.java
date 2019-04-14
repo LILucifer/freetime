@@ -25,6 +25,7 @@ public class ContainerUtils {
     private static  Set<String> failUrl = Collections.synchronizedSet(new LinkedHashSet<>());
 
     public static void addControllerMap(String key, ProxyIpModel value) {
+        log.info("{} proxy ip was successed ", value);
         controllerMap.put(key, value);
     }
 

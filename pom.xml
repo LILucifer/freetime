@@ -15,6 +15,7 @@
         <module>seckill</module>
         <module>hessian</module>
         <module>ebidding</module>
+        <module>springcloud</module>
     </modules>
 
 

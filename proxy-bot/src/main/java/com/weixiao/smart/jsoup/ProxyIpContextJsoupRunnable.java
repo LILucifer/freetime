@@ -4,7 +4,6 @@ import com.weixiao.smart.container.ContainerUtils;
 import com.weixiao.smart.entity.ProxyIpModel;
 import com.weixiao.smart.quartz.ProxyIpJsoupQuartz;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 import static com.weixiao.smart.container.ContainerUtils.addFailUrl;
+import static com.weixiao.smart.quartz.ProxyIpJsoupQuartz.conditionAwait;
 
 
 /**
@@ -39,18 +39,25 @@ public class ProxyIpContextJsoupRunnable implements Runnable {
     public void run() {
 
         if (ProxyIpJsoupQuartz.isNeedClosePreTask) {//判定是否继续执行任务：下次任务启动时前次任务无需执行直接结束
+            if (countDownLatch != null) {
+                countDownLatch.countDown();
+            }
             return;
         }
 
         try {
             Document doc = JsoupDoument.getDocument(url);
             getProxyIdContent(doc); //获取proxy id
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.info(" in this url [ {} ] get Document was failed , add to FailUrl try again   ", url);
             addFailUrl(url);
         } finally {
             isFinished = true;
-            countDownLatch.countDown();
+            if (countDownLatch != null) {
+                countDownLatch.countDown();
+            }
+            //conditionAwait();
+
         }
     }
 

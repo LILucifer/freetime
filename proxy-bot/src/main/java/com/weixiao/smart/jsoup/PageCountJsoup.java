@@ -8,9 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @author lishixiang0925@126.com.
@@ -29,11 +31,13 @@ public class PageCountJsoup {
 
             //使用获取到的Proxy id 去抓取数据（验证第一页的Proxy Ip 是否可用）
             if (ContainerUtils.getControllerMap().size() == 0) {
-                ProxyIpContextJsoupRunnable runnable = new ProxyIpContextJsoupRunnable("", null);
+                ProxyIpContextJsoupRunnable runnable = new ProxyIpContextJsoupRunnable("", null );
                 runnable.getProxyIdContent(doc); //获取第一页Proxy IP
-                CountDownLatch countDownLatch = new CountDownLatch(ContainerUtils.getJsoupResultMap().size());
-                ContainerUtils.getJsoupResultMap().forEach(( key , value)->{
-                    Constants.executorService.execute(new JudgmentRunnable((ProxyIpModel) value,countDownLatch));
+                Map<String, Object> tempResult = ContainerUtils.getJsoupResultMap();
+
+                CountDownLatch countDownLatch = new CountDownLatch(tempResult.size());
+                tempResult.forEach(( key , value)->{
+                    Constants.executorService.execute(new JudgmentRunnable((ProxyIpModel) value,countDownLatch ));
                 });
                 try {
                     countDownLatch.await();

@@ -28,28 +28,35 @@ public class JudgmentRunnable implements Runnable {
     @Override
     public void run() {
         if (ProxyIpJsoupQuartz.isNeedClosePreTask) {
+            countDownLatch.countDown();
             return;
         }
         method();
         countDownLatch.countDown();
+        //conditionAwait();
+
     }
 
     public void method() {
 
-        int i = 0;
+        int i = 1;
         while (i <= Constants.FIRST_CHECK_TIME) {
-            i++;
             executedJudgment();
+            i++;
         }
         if (verifySuccess(3)) {
+            ContainerUtils.addControllerMap(model.getIp(), model);
+            log.info("id : {}  was successed", this.model.getIp());
             return;
         }
+
         while (i <= Constants.AGAIN_CHECK_TIME) {
-            i++;
             executedJudgment();
+            i++;
         }
         if (model.getSuccessCount() >= 5) {
             ContainerUtils.addControllerMap(model.getIp(), model);
+            log.info("id : {}  was successed", this.model.getIp());
             return;
         }
         ContainerUtils.removeJsoupResultMap(model.getIp());
@@ -66,11 +73,11 @@ public class JudgmentRunnable implements Runnable {
         } else {
             model.increaseFailCount();
         }
-        try {
-            Thread.sleep(Constants.FIXED_RATE);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(Constants.FIXED_RATE);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -83,9 +90,10 @@ public class JudgmentRunnable implements Runnable {
             ContainerUtils.addControllerMap(model.getIp(), model);
             return true;
         }
-        if (model.getFailCount() > 3) { //失败次数为 4 、5 ，成功次数 1 、0  视为无效proxy ip ； 失败次数3 ，成功次数2 继续验证
-            return true;
-        }
+        //失败次数为 4 、5 ，成功次数 1 、0  视为无效proxy ip ； 失败次数3 ，成功次数2 继续验证
+//        if (model.getFailCount() > 3) {
+//            return false;
+//        }
         return false;
     }
 

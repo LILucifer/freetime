@@ -47,6 +47,7 @@ public class JsoupDoument {
         URL url = new URL(urlStr);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection(proxy);
         connection.setConnectTimeout(TIME_OUT);
+        connection.setReadTimeout(TIME_OUT);
         connection.setRequestProperty("User-Agent", USER_AGENT);
         InputStream inputStream = connection.getInputStream();
         BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
