@@ -44,6 +44,7 @@ public class RequestHandlerInterceptorAdapter extends HandlerInterceptorAdapter 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        request.getInputStream();
         //请求拦截解密验签
         //log.info("preHandle {}");
         return true;

@@ -20,7 +20,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-   /* @Autowired
+    @Autowired
     private IUserService userService;
     @Bean(name = "/userService")
     public HessianServiceExporter initHessian(){
@@ -28,7 +28,7 @@ public class Application {
         exporter.setService(userService);
         exporter.setServiceInterface(userService.getClass().getInterfaces()[0]);
         return exporter;
-    }*/
+    }
 
 
 }

@@ -21,9 +21,8 @@ public class HessianServiceProxyExporter extends HessianServiceExporter {
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //此处可做统一数据验签
         log.info("HessianServiceProxyExporter get request at {}" , LocalDateTime.now());
         super.handleRequest(request ,response);
     }
-
-
 }

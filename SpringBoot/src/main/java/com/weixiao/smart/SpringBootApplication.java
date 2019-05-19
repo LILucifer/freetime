@@ -2,6 +2,7 @@ package com.weixiao.smart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author lishixiang0925@126.com.
@@ -11,10 +12,10 @@ import org.springframework.boot.SpringBootConfiguration;
 @org.springframework.boot.autoconfigure.SpringBootApplication
 public class SpringBootApplication {
     public static void main(String[] args) {
-        //SpringApplication.run(SpringBootApplication.class, args);
-        SpringApplication application = new SpringApplication(SpringBootApplication.class);
+        SpringApplication.run(SpringBootApplication.class, args);
+//        SpringApplication application = new SpringApplication(SpringBootApplication.class);
 //        application.setWebEnvironment(false);
-        application.run(args);
+//        application.run(args);
         //new SpringApplicationBuilder(SpringBootApplication.class).web(WebApplicationType.NONE).run(args);
     }
 }

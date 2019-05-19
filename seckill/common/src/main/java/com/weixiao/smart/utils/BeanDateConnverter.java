@@ -2,6 +2,7 @@ package com.weixiao.smart.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.lang3.time.DateUtils;
@@ -40,6 +41,7 @@ public class BeanDateConnverter implements Converter
 		}catch(Exception ex){
 			logger.debug("parse date error:"+ex.getMessage());
 		}
+		HashMap map;
 		return null;
 	}
 }

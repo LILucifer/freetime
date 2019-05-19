@@ -37,7 +37,6 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
     @Override
     public void afterPropertiesSet() throws Exception {
         Map<String, Object> beansWithAnnotationMap = applicationContext.getBeansWithAnnotation(HessianService.class);
-
         for (Map.Entry<String, Object> entry : beansWithAnnotationMap.entrySet()) {
             hessianServiceExporterRegisterHandler(entry);
         }
@@ -54,7 +53,6 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
                 "@HessianService interfaceClass() or interfaceName() or interface class must be present!");
         Assert.isTrue(interfaceClass.isInterface(),
                 "The type that was annotated @HessianService is not an interface!");
-
 
         String hessianServiceName = null;
         HessianService hessianService = entry.getValue().getClass().getAnnotation(HessianService.class);
@@ -78,14 +76,17 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
      * @param interfaceClass
      */
     private void registerExportBean(String hessianServiceName ,Object Service, Class<?> interfaceClass) {
-        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(HessianServiceProxyExporter.class);
-        AbstractBeanDefinition beanProxyDefinition = beanDefinitionBuilder.getBeanDefinition();
-        MutablePropertyValues propertyValues = new MutablePropertyValues();
-        propertyValues.addPropertyValue("service", Service);
-        propertyValues.addPropertyValue("serviceInterface", interfaceClass);
-        beanProxyDefinition.setPropertyValues(propertyValues);
-        beanFactory.registerBeanDefinition(hessianServiceName,beanProxyDefinition);
+        AbstractBeanDefinition beanProxyDefinition = applicationContext.getBean(hessianServiceName,AbstractBeanDefinition.class);
+        if (beanProxyDefinition == null) {//IOC容器中没有注册 hessianServiceName 对应的Bean
+            BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(HessianServiceProxyExporter.class);
+            beanProxyDefinition = beanDefinitionBuilder.getBeanDefinition();
+            MutablePropertyValues propertyValues = new MutablePropertyValues();
+            propertyValues.addPropertyValue("service", Service);
+            propertyValues.addPropertyValue("serviceInterface", interfaceClass);
+            beanProxyDefinition.setPropertyValues(propertyValues);
+            //HessianServiceProxyExporter 注册到IOC容器中
+            beanFactory.registerBeanDefinition(hessianServiceName,beanProxyDefinition);
+        }
         log.info("HessianService was initialized : {}  {}", hessianServiceName, interfaceClass.getName());
     }
-
 }

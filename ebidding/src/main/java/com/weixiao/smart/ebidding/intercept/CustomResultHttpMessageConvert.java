@@ -42,6 +42,8 @@ public class CustomResultHttpMessageConvert extends AbstractHttpMessageConverter
 
     @Override
     protected Result readInternal(Class<? extends Result> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+        //数据设备号验签，数据解密
+        inputMessage.getBody();
         return null;
     }
 

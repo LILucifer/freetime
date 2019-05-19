@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sun.awt.Mutex;
 import sun.nio.ch.ThreadPool;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
@@ -265,6 +267,16 @@ public class TestThread {
     @Test
     public void testThreadPool2() {
         ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<Map<String, Object>>();
+    }
+
+    @Test
+    public void testIf(){
+        int i = 0;
+        if (i > 0)
+            System.out.println("2");
+            System.out.println("3");
+
+
     }
 
 }

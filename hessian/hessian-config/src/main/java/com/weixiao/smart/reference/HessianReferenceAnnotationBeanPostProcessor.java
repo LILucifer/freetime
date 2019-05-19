@@ -8,7 +8,6 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.InjectionMetadata;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
 import org.springframework.beans.factory.support.*;
@@ -86,8 +85,10 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
     public PropertyValues postProcessPropertyValues(
             PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeanCreationException {
         getServiceUrl();
+        //实例化 注入元数据（findMethodReferenceMetadata ， findFieldReferenceMetadata）
         InjectionMetadata metadata = findReferenceMetadata(beanName, bean.getClass(), pvs);
         try {
+            //通过反射给Bean设值
             metadata.inject(bean, beanName, pvs);
         } catch (BeanCreationException ex) {
             throw ex;
@@ -136,13 +137,9 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
      * @return
      */
     private InjectionMetadata buildReferenceMetadata(final Class<?> beanClass) {
-
         final List<InjectionMetadata.InjectedElement> elements = new LinkedList<InjectionMetadata.InjectedElement>();
-
         elements.addAll(findFieldReferenceMetadata(beanClass));
-
         elements.addAll(findMethodReferenceMetadata(beanClass));
-
         return new InjectionMetadata(beanClass, elements);
 
     }
@@ -169,7 +166,7 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
                         log.warn("@HessianReference annotation is not supported on static fields: " + field);
                         return;
                     }
-
+                    // 构建InjectionMetadata元数据
                     elements.add(new ReferenceFieldElement(field, reference));
                 }
 
@@ -213,6 +210,7 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
                                 method);
                     }
                     PropertyDescriptor pd = BeanUtils.findPropertyForMethod(bridgedMethod, beanClass);
+                    // 构建InjectionMetadata元数据
                     elements.add(new ReferenceMethodElement(method, pd, reference));
                 }
             }
@@ -256,7 +254,7 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
             Object referenceBean = buildReferenceBean(referenceName, reference, referenceClass);
 
             ReflectionUtils.makeAccessible(field);
-
+            // 给这个对象bean的这个filed设置值，值为：referenceBean
             field.set(bean, referenceBean);
 
         }
@@ -295,22 +293,18 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
 
 
     private Object buildReferenceBean(String referenceBeanName, HessianReference reference, Class<?> referenceClass) throws Exception {
-
         //String referenceBeanCacheKey = generateReferenceBeanCacheKey(reference, referenceClass);
-
         String referenceBeanCacheKey = referenceClass.getName();
-
         Object referenceBean = referenceBeansCache.get(referenceBeanCacheKey);
+        //先从缓存中获取Bean 没有则创建Bean
         if (referenceBean == null) {
-
-
             String serviceUrlMethod = serviceUrl + "/" + referenceBeanName;
             try {
                 referenceBean = applicationContext.
                         getBean(referenceBeanCacheKey);
             } catch (BeansException e) {
                 if (e instanceof NoSuchBeanDefinitionException) {
-                    registerExportBean(referenceBeanCacheKey, serviceUrlMethod, referenceClass);
+                    registerReferenceBean(referenceBeanCacheKey, serviceUrlMethod, referenceClass);
                     referenceBean = applicationContext.
                             getBean(referenceBeanCacheKey);
                 } else {
@@ -318,7 +312,6 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
                 }
             }
             referenceBeansCache.putIfAbsent(referenceBeanCacheKey, referenceBean);
-
         }
 
 
@@ -389,7 +382,7 @@ public class HessianReferenceAnnotationBeanPostProcessor extends InstantiationAw
      * @param serviceUrl
      * @param interfaceClass
      */
-    private void registerExportBean(String hessianReferenceBeanName, String serviceUrl, Class<?> interfaceClass) {
+    private void registerReferenceBean(String hessianReferenceBeanName, String serviceUrl, Class<?> interfaceClass) {
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(HessianReferenceProxyFactoryBean.class);
         AbstractBeanDefinition beanProxyDefinition = beanDefinitionBuilder.getBeanDefinition();
         MutablePropertyValues propertyValues = new MutablePropertyValues();

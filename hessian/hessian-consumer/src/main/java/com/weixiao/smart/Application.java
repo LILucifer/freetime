@@ -32,8 +32,8 @@ public class Application {
         return factory;
     }
 
-//    @HessianReference
-//    private IUserService userService;
+    @HessianReference
+    private IUserService userService;
 
 
 //    @Configuration
