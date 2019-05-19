@@ -17,6 +17,7 @@
         <module>ebidding</module>
         <module>springcloud</module>
         <module>proxy-bot</module>
+        <module>mini-code</module>
     </modules>
 
 
