@@ -14,5 +14,6 @@ public class SpringBootApplication {
         SpringApplication.run(SpringBootApplication.class, args);
         MiniCodeTest test = new MiniCodeTest();
         test.mainExecute();
+
     }
 }
