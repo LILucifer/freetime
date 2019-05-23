@@ -19,7 +19,7 @@ import static com.weixiao.smart.ebidding.rabbitmq.constant.MQConstant.*;
  * @description MQ configuration
  * @Created 2019-03-30 20:06.
  */
-@Configuration
+//@Configuration
 public class RabbitConfiguration {
     @Autowired
     private RabbitMqProperties rabbitMqProperties;

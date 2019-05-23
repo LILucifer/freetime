@@ -20,6 +20,7 @@ public class BeanAdapter {
     @Qualifier("wxPayService")
     private PayService wxPayService;
 
+
     public PayService beanAdapter(String payType) {
         PayService payService = null;
         switch (payType) {

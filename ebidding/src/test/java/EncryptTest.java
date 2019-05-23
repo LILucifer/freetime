@@ -1,9 +1,11 @@
 import com.weixiao.smart.ebidding.Application;
 import com.weixiao.smart.ebidding.encrypt.RSAEncrypt;
+import com.weixiao.smart.ebidding.encrypt.properties.EncryptProperties;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,8 +23,9 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class EncryptTest {
-    @Value("${encrypt.isEncrypt}")
-    private boolean isEncrypt;
+
+    @Autowired
+    private EncryptProperties encryptProperties;
 
 
     @Test
@@ -46,8 +49,9 @@ public class EncryptTest {
 
     @Test
     public void testValue(){
-        log.info("isEncrypt = {}" , isEncrypt );
-        ReflectionUtils reflectionUtils;
+        log.info("isEncrypt = {}" , encryptProperties.isEncryptOff() );
+        String data = "{\"userId\":\"askd我\",\"userName\":\"tom\"}";
+        log.info("{}", RSAEncrypt.encryptedDataByPublicKey(data,encryptProperties.getPublicKey()));
         //Class classs = Class.forName("");
     }
 }

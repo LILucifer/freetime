@@ -18,7 +18,7 @@ import static com.weixiao.smart.ebidding.rabbitmq.constant.MQConstant.MQ_QUEUE_T
  */
 @Slf4j
 @Component
-@RabbitListener(queues = {MQ_QUEUE_TEAM_WORK} )
+//@RabbitListener(queues = {MQ_QUEUE_TEAM_WORK} )
 public class MqReceiver  {
     @RabbitHandler
     public void process(String content, Channel channel, Message message) {
