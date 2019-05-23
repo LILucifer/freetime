@@ -1,5 +1,7 @@
 package com.weixiao.smart.cartcode.service;
 
+import com.weixiao.smart.cartcode.model.Car;
+
 /**
  * @author lishixiang
  * @Title:
@@ -10,7 +12,7 @@ public interface CarBehaviorService {
     /**
      * 车移动
      *
-     * @param command 移动指令
+     * @param command 移动指令 clockwise:顺时针旋转 ， moveForward： 向前移动
      */
     void move(String command);
 
@@ -35,4 +37,5 @@ public interface CarBehaviorService {
      */
     String getOrientation();
 
+    void setCar(Car car);
 }
