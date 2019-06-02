@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -30,7 +31,7 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-        this.beanFactory= (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+        this.beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
     }
 
 
@@ -64,19 +65,34 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
             }
             hessianServiceName = "/" + hessianServiceName;
         }
-        Assert.notNull(hessianServiceName,"hessianServiceName can not null!");
+        Assert.notNull(hessianServiceName, "hessianServiceName can not null!");
 
-        registerExportBean(hessianServiceName ,entry.getValue(),interfaceClass);
+        registerExportBean(hessianServiceName, entry.getValue(), interfaceClass);
     }
 
     /**
      * register the bean of HessianServiceProxyExporter in container
+     *
      * @param hessianServiceName
      * @param Service
      * @param interfaceClass
      */
-    private void registerExportBean(String hessianServiceName ,Object Service, Class<?> interfaceClass) {
-        AbstractBeanDefinition beanProxyDefinition = applicationContext.getBean(hessianServiceName,AbstractBeanDefinition.class);
+    private void registerExportBean(String hessianServiceName, Object Service, Class<?> interfaceClass) {
+        AbstractBeanDefinition beanProxyDefinition = null;
+        try {
+            beanProxyDefinition = applicationContext.getBean(hessianServiceName, AbstractBeanDefinition.class);
+        } catch (BeansException e) {
+            if (e instanceof NoSuchBeanDefinitionException) {
+                registerBean(beanProxyDefinition,hessianServiceName, Service, interfaceClass);
+                return;
+            }
+            e.printStackTrace();
+        }
+        registerBean(beanProxyDefinition,hessianServiceName, Service, interfaceClass);
+        log.info("HessianService was initialized : {}  {}", hessianServiceName, interfaceClass.getName());
+    }
+
+    private void registerBean(AbstractBeanDefinition beanProxyDefinition, String hessianServiceName, Object Service, Class<?> interfaceClass) {
         if (beanProxyDefinition == null) {//IOC容器中没有注册 hessianServiceName 对应的Bean
             BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(HessianServiceProxyExporter.class);
             beanProxyDefinition = beanDefinitionBuilder.getBeanDefinition();
@@ -85,8 +101,7 @@ public class HessianServiceExporterConfig implements InitializingBean, Applicati
             propertyValues.addPropertyValue("serviceInterface", interfaceClass);
             beanProxyDefinition.setPropertyValues(propertyValues);
             //HessianServiceProxyExporter 注册到IOC容器中
-            beanFactory.registerBeanDefinition(hessianServiceName,beanProxyDefinition);
+            beanFactory.registerBeanDefinition(hessianServiceName, beanProxyDefinition);
         }
-        log.info("HessianService was initialized : {}  {}", hessianServiceName, interfaceClass.getName());
     }
 }

@@ -24,13 +24,13 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public HessianReferenceProxyFactoryBean helloClient() {
-        HessianReferenceProxyFactoryBean factory = new HessianReferenceProxyFactoryBean();
-        factory.setServiceUrl("http://127.0.0.1:8080/userService");
-        factory.setServiceInterface(IUserService.class);
-        return factory;
-    }
+//    @Bean
+//    public HessianReferenceProxyFactoryBean helloClient() {
+//        HessianReferenceProxyFactoryBean factory = new HessianReferenceProxyFactoryBean();
+//        factory.setServiceUrl("http://127.0.0.1:8080/userService");
+//        factory.setServiceInterface(IUserService.class);
+//        return factory;
+//    }
 
     @HessianReference
     private IUserService userService;
