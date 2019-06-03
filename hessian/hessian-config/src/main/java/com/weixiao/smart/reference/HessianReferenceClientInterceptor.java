@@ -2,6 +2,7 @@ package com.weixiao.smart.reference;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.aop.framework.ReflectiveMethodInvocation;
 import org.springframework.remoting.caucho.HessianClientInterceptor;
 
 /**
@@ -13,10 +14,15 @@ import org.springframework.remoting.caucho.HessianClientInterceptor;
 public class HessianReferenceClientInterceptor extends HessianClientInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        log.info("start hessian RPC ---------");
+        //log.info("hessian request Method =  {} , Arguments = {}", invocation.getMethod() , invocation.getArguments());
+        if (invocation instanceof ReflectiveMethodInvocation) {
+            ReflectiveMethodInvocation reflectiveMethodInvocation = (ReflectiveMethodInvocation) invocation;
+            log.info("hessian request = {} {} ,  Arguments = {}" , reflectiveMethodInvocation.getProxy() ,
+                    invocation.getMethod().getName(),invocation.getArguments());
+        }
         Object invoke = super.invoke(invocation);
         String result = String.valueOf(invoke);
-        log.info("end hessian RPC ---------");
+        log.info("hessian response = {}", result);
         return invoke;
     }
 

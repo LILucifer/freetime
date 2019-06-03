@@ -23,7 +23,10 @@ public class HessianServiceTest {
     @HessianReference
     private IUserService userService;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 18259e638b5fbe576dcc69b5a4169ee6a66eaeb3
     @Test
     public void testGetUserName(){
         log.warn(userService.getClass().toString());
