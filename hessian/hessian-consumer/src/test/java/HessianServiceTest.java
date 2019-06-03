@@ -23,8 +23,6 @@ public class HessianServiceTest {
     @HessianReference
     private IUserService userService;
 
-    @Autowired
-    private IUserService userService2;
 
     @Test
     public void testGetUserName(){
