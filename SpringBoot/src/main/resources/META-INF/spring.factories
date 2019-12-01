@@ -1,0 +1,4 @@
+#登记Spring扩展点
+#让Spring启动支持读取Zookeeper配置信息到Environment
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.weixiao.smart.environment.ZookeeperEnvironmentPostProcessor
