@@ -4,3 +4,6 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+
+zookeeper:
+  url: 127.0.0.1:2181

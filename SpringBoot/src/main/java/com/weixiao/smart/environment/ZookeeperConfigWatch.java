@@ -32,9 +32,9 @@ public class ZookeeperConfigWatch {
     }
 
     /**
-     * 加载此Bean时初始化 zookeeper 监听器
+     * 加载此Bean时初始化 zookeeper 监听器P
      */
-    @PostConstruct
+    @PostConstruct //对象初始化后触发执行
     public void initWatch() {
         CuratorFramework zkClient = CuratorFrameworkFactory.newClient(zookeeperUrl, new RetryOneTime(2000));
         //启动与zookeeper连接
