@@ -38,9 +38,9 @@ public class HessianServiceProxyExporter extends HessianServiceExporter {
         }
 
         response.setContentType(CONTENT_TYPE_HESSIAN);
-        InputStream inputStreamTeam = null;
+        InputStream inputStream = null;
         try {
-            InputStream inputStream = request.getInputStream();
+            inputStream = request.getInputStream();
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             // Fake code simulating the copy
@@ -62,8 +62,8 @@ public class HessianServiceProxyExporter extends HessianServiceExporter {
         } catch (Throwable ex) {
             throw new NestedServletException("Hessian skeleton invocation failed", ex);
         } finally {
-            if (inputStreamTeam != null) {
-                inputStreamTeam.close();
+            if (inputStream != null) {
+                inputStream.close();
             }
         }
     }

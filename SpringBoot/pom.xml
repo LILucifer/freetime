@@ -36,6 +36,19 @@
         </plugins>
     </build>
 
+    <properties>
+        <!-- poi -->
+        <poi.version>3.8-beta4</poi.version>
+        <poi-excelant.version>3.8</poi-excelant.version>
+        <poi-ooxml.version>3.8-beta4</poi-ooxml.version>
+        <poi-ooxml-schemas.version>3.8-beta4</poi-ooxml-schemas.version>
+        <poi-scratchpad.version>3.8-beta4</poi-scratchpad.version>
+
+        <commons-beanutils.version>1.8.3</commons-beanutils.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-collections.version>3.2</commons-collections.version>
+    </properties>
+
     <dependencies>
 
         <!-- web -->
@@ -132,7 +145,49 @@
             <version>3.21.0-GA</version>
         </dependency>
 
+        <!-- apache poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-excelant</artifactId>
+            <version>${poi-excelant.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi-ooxml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>${poi-ooxml-schemas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>${poi-scratchpad.version}</version>
+        </dependency>
 
+        <!-- Apache commons -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
