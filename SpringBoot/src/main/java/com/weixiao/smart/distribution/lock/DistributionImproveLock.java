@@ -20,7 +20,7 @@ import java.util.concurrent.locks.Lock;
 
 /**
  * @author lishixiang0925@126.com.
- * @description zookeeper实现分布式锁---解决好了惊群效应
+ * @description zookeeper实现分布式锁---解决好了惊群效应  还有一个问题需解决：可重入锁的问题
  * <p>
  * 利用临时顺序节点来实现分布式锁
  * 获取锁：取排队号（创建自己的临时顺序节点），然后判断自己是否是最小号，如是，则获得锁；不是，则注册前一节点的watcher,阻塞等待
