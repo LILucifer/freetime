@@ -4,6 +4,16 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  #redis配置信息
+  redis:
+    cluster:
+      nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
+    timeout: 50000
+    pool:
+      max-active: 50
+      max-wait: 6000000
+      max-idle: 30
+      min-idle: 10
 
 zookeeper:
   url: 127.0.0.1:2181

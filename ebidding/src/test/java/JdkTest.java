@@ -1,11 +1,13 @@
 import com.weixiao.smart.ebidding.Application;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author lishixiang
@@ -33,5 +35,21 @@ public class JdkTest {
         log.info("num5= {} , num6 = {}", num5, num6);
 
 
+    }
+    @Test
+    public void testGeneric(){
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        List<HashMap<String, Object>> hashMapList = new ArrayList<>();
+        for (int i = 0 ;i<10;i++) {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put(i + "", i);
+            hashMapList.add(hashMap);
+        }
+
+        for (HashMap<String, Object> hashMap : hashMapList) {
+            mapList.add(hashMap);
+        }
+
+        hashMapList.removeAll(hashMapList);
     }
 }
