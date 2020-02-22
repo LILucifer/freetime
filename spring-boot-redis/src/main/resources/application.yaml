@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.102:3306/panel
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+#redis配置信息
+spring:
+  redis:
+    cluster:
+      nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
+    timeout: 50000
+# 分布式缓存
+spring:
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: session:redissession
+
+    # Spring boot 是否有自动装载jedis客户端？
+#    jedis:
+#      pool:
+#        max-active: 10
+#        max-idle: 8
+#        min-idle: 0
+#        max-wait: 60000
+
+
+jedis:
+  #redis 集群节点
+  nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
+  # 连接超时时间（毫秒）
+  connectionTimeout: 50000
+  soTimeout: 50000
+  password: a8fdc205a9f19cc1c7507a60c4f01b13d11d7fd0
+  maxTotal: 30
+  #连接池中的最大空闲连接
+  maxIdle: 3
+  #连接池中的最小空闲连接
+  minIdle: 1
+  maxAttempts: 5
+  maxWaitMillis: 600000
+  minEvictableIdleTimeMillis: 60000
+server:
+  port: 8082
+  address: 127.0.0.1

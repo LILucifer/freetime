@@ -19,6 +19,7 @@
         <module>proxy-bot</module>
         <module>mini-code</module>
         <module>microspecialty</module>
+        <module>spring-boot-redis</module>
     </modules>
 
 

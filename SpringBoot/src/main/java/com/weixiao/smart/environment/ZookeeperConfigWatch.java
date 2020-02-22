@@ -18,7 +18,7 @@ import java.util.List;
  * @description 监听zookeeper 中zk_config 节点下的变更并修改
  * @Created 2019-11-30 17:15.
  */
-@Component
+//@Component
 @Data
 public class ZookeeperConfigWatch {
 
