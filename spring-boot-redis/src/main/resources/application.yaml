@@ -5,11 +5,11 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
 #redis配置信息
-spring:
-  redis:
-    cluster:
-      nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
-    timeout: 50000
+#spring:
+#  redis:
+#    cluster:
+#      nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
+#    timeout: 50000
 # 分布式缓存
 spring:
   session:
@@ -43,5 +43,5 @@ jedis:
   maxWaitMillis: 600000
   minEvictableIdleTimeMillis: 60000
 server:
-  port: 8082
+  port: 8081
   address: 127.0.0.1
