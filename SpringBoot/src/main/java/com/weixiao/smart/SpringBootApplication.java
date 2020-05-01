@@ -22,8 +22,8 @@ public class SpringBootApplication {
 //        application.setWebEnvironment(false);
 //        application.run(args);
         //new SpringApplicationBuilder(SpringBootApplication.class).web(WebApplicationType.NONE).run(args);
-        Properties properties = CongfigurationUtil.getconfigs();
+        /*Properties properties = CongfigurationUtil.getconfigs();
         String basePathBuilderImpl = properties.getProperty("config.basePathBuilderImpl");
-        log.info(basePathBuilderImpl);
+        log.info(basePathBuilderImpl);*/
     }
 }
