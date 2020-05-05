@@ -1,9 +1,9 @@
-spring:
-  datasource:
-    url: jdbc:mysql://192.168.0.102:3306/panel
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
+#spring:
+#  datasource:
+#    url: jdbc:mysql://192.168.0.102:3306/panel
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.jdbc.Driver
 #redis配置信息
 #spring:
 #  redis:
@@ -29,7 +29,8 @@ spring:
 
 jedis:
   #redis 集群节点
-  nodes: 127.0.0.1:17000,127.0.0.1:17001,127.0.0.1:17002,127.0.0.1:17003,127.0.0.1:17004,127.0.0.1:17005
+  #nodes: 127.0.0.1:17000,127.0.0.1:17001,127.0.0.1:17002,127.0.0.1:17003,127.0.0.1:17004,127.0.0.1:17005
+  nodes: 172.16.91.54:7000,172.16.91.54:7001,172.16.91.54:7002,172.16.91.54:7003,172.16.91.54:7004,172.16.91.54:7005
   # 连接超时时间（毫秒）
   connectionTimeout: 50000
   soTimeout: 50000
@@ -45,3 +46,15 @@ jedis:
 server:
   port: 8081
   address: 127.0.0.1
+
+file:
+  operation:
+    multipartSizeLimit: 419430400
+    multipartSize: 419430400
+    readBufLenSize: 1048576
+    fileUploadUrlForJunitTest: http://127.0.0.1:8081/fileOperation/downloadFile
+    tempDirect: D:\upload\tempfile
+    #分片下载的固定线程池线大小
+    nThreads: 2
+    #线程池队列大小
+    threadPoolQueueCapacity: 1000

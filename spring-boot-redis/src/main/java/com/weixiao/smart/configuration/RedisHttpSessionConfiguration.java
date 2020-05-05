@@ -2,6 +2,7 @@ package com.weixiao.smart.configuration;
 
 import com.weixiao.smart.configuration.properties.JedisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
+import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.Arrays;
@@ -82,6 +84,11 @@ public class RedisHttpSessionConfiguration {
         return redisTemplate;
     }
 
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
 
 
 
