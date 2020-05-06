@@ -49,12 +49,12 @@ server:
 
 file:
   operation:
-    multipartSizeLimit: 419430400
-    multipartSize: 419430400
-    readBufLenSize: 1048576
-    fileUploadUrlForJunitTest: http://127.0.0.1:8081/fileOperation/downloadFile
-    tempDirect: D:\upload\tempfile
+    multipart-size-limit: 419430400
+    multipart-size: 419430400
+    read-buf-len-size: 1048576
+    file-upload-url-for-junitTest: http://127.0.0.1:8081/fileOperation/downloadFile
+    temp-direct: D:\upload\tempfile
     #分片下载的固定线程池线大小
     nThreads: 2
     #线程池队列大小
-    threadPoolQueueCapacity: 1000
+    thread-pool-queue-capacity: 1000
