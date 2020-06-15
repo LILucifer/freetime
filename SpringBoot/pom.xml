@@ -46,7 +46,7 @@
 
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <commons-collections.version>3.2</commons-collections.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
     </properties>
 
     <dependencies>
@@ -125,7 +125,7 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2</version>
+            <version>3.2.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
