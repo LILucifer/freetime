@@ -1,0 +1,15 @@
+server:
+  port: 10000
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: dev
+  client:
+    service-url:
+      defaultZone : http://${eureka.instance.hostname}:${server.port}/eureka/
+    fetch-registry: false
+    register-with-eureka: false
+spring:
+  application:
+    name: eureka-test

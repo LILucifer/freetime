@@ -15,7 +15,8 @@ public class TestMain {
         //testMinValueStack();
 //        testQueueStack();
 //        testReverseData();
-        testSortByStack();
+//        testSortByStack();
+        testHanotaProblem();
 
     }
 
@@ -81,6 +82,14 @@ public class TestMain {
         while (!dataStack.isEmpty()) {
             print(dataStack.pop());
         }
+    }
+
+    public static void testHanotaProblem() {
+
+        Hanota hanota = new Hanota();
+        int step = hanota.hanotaResove(5);
+        log.info("total move step is {}" , step);
+
     }
 
 }
