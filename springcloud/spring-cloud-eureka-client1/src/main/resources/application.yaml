@@ -1,0 +1,11 @@
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://127.0.0.1:10000/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
+    eureka-connection-idle-timeout-seconds: 60
+spring:
+  application:
+    name: eureka-clinet

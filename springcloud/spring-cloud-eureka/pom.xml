@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.weixiao.smart</groupId>
-	<artifactId>eureka</artifactId>
+	<artifactId>spring-cloud-eureka-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-cloud-eureka</name>
 	<description>Demo project for spring-cloud-eureka</description>
