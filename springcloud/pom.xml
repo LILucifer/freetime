@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>spring-cloud-eureka-server</module>
+        <module>spring-cloud-eureka</module>
         <module>spring-cloud-eureka-client1</module>
         <module>spring-cloud-eureka-client2</module>
         <module>spring-cloud-eureka-consumer</module>

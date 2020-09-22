@@ -6,6 +6,8 @@ eureka:
     service-url:
       defaultZone : http://127.0.0.1:10000/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
     eureka-connection-idle-timeout-seconds: 60
+    enabled: false
+
 spring:
   application:
     name: eureka-clinet

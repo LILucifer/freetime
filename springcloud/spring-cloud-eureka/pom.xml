@@ -6,12 +6,12 @@
 		<artifactId>springcloud</artifactId>
 		<groupId>com.weixiao.smart</groupId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.weixiao.smart</groupId>
 	<artifactId>spring-cloud-eureka-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-cloud-eureka</name>
+	<packaging>pom</packaging>
 	<description>Demo project for spring-cloud-eureka</description>
 
 	<properties>
