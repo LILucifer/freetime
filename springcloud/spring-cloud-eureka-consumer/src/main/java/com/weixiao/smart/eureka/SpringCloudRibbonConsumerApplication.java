@@ -3,9 +3,8 @@ package com.weixiao.smart.eureka;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,16 +15,16 @@ import org.springframework.web.client.RestTemplate;
  */
 
 @SpringBootApplication
-//@EnableDiscoveryClient
-//@EnableEurekaClient
-public class SpringCloudEurekaConsumerApplication {
+@RibbonClients(
+        @RibbonClient(value = "consumer-server")
+)
+public class SpringCloudRibbonConsumerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringCloudEurekaConsumerApplication.class, args);
+        SpringApplication.run(SpringCloudRibbonConsumerApplication.class, args);
     }
 
 
-//    @Bean
-//    @LoadBalanced
+    @Bean
     public RestTemplate initRestTemplate(RestTemplateBuilder builder){
         return builder.build();
     }

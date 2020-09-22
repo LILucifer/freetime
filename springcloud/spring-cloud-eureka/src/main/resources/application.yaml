@@ -1,4 +1,3 @@
-
 spring:
   profiles:
     active: dev2
@@ -11,11 +10,12 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/,http://localhost:10002/eureka/
+      defaultZone: http://localhost:10003/eureka/,http://localhost:10001/eureka/,http://localhost:10002/eureka/
   server:
     wait-time-in-ms-when-sync-empty: 0
     enable-self-preservation: true
     peer-eureka-nodes-update-interval-ms: 10000
+    peer-node-read-timeout-ms:  10000
 
 
 logging:
@@ -33,7 +33,7 @@ spring:
   profiles: dev
 
 server:
-  port: 10000
+  port: 10003
 
 
 

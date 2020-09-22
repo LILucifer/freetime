@@ -2,7 +2,7 @@ package com.weixiao.smart.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author lishixiang0925@126.com.
@@ -89,6 +89,13 @@ public class TestMain {
         Hanota hanota = new Hanota();
         int step = hanota.hanotaResove(5);
         log.info("total move step is {}" , step);
+
+    }
+
+
+    public void testBaseDataStype(){
+        List<String> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
 
     }
 
