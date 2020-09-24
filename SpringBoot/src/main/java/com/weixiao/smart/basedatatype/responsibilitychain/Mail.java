@@ -1,6 +1,8 @@
 package com.weixiao.smart.basedatatype.responsibilitychain;
 
 
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * @author lishixiang0925@126.com.
@@ -32,16 +34,49 @@ public class Mail {
 
     public static Mail randomMails(){
         Mail mail = new Mail();
-        return Enums.random(Readability.class);
+        mail.readability = random(Readability.class);
+        mail.address = random(Address.class);
+        mail.scanability = random(Scanability.class);
+        mail.getAddress = random(GetAddress.class);
+        return mail;
     }
+
+    private static <T extends Enum<T>> T random(Class<T > clas) {
+        int pick = new Random().nextInt(clas.getEnumConstants().length);
+        return clas.getEnumConstants()[pick];
+    }
+
 
     public static Iterable<Mail> generator(int count) {
 
+        Iterable<Mail> iterable = new Iterable<Mail>() {
+            int n = count;
+            @Override
+            public Iterator<Mail> iterator() {
+
+                return new Iterator<Mail>() {
+                    @Override
+                    public boolean hasNext() {
+                        return n >0;
+                    }
+
+                    @Override
+                    public Mail next() {
+                        if (hasNext()) {
+                            n--;
+                            return Mail.randomMails();
+                        }
+                        return null;
+                    }
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
+        };
+        return iterable;
     }
-    private Letter randomLetter() {
-        int pick = new Random().nextInt(Letter.values().length);
-        return Letter.values()[pick];
-    }
+
 
 
 
