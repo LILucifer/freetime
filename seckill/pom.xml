@@ -30,7 +30,7 @@
         <objenesis.version>2.6</objenesis.version>
         <kryo.serializers.version>0.26</kryo.serializers.version>
         <redis.version>2.9.0</redis.version>
-        <springframework.version>4.1.1.RELEASE</springframework.version>
+        <springframework.version>5.3.1</springframework.version>
         <activemq.core.version>5.7.0</activemq.core.version>
         <activemq.pool.version>5.12.1</activemq.pool.version>
         <spring.date.redis.version>1.6.2.RELEASE</spring.date.redis.version>
