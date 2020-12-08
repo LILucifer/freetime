@@ -20,6 +20,7 @@
         <module>mini-code</module>
         <module>microspecialty</module>
         <module>spring-boot-redis</module>
+        <module>spring-boot-authenticate</module>
     </modules>
 
 
