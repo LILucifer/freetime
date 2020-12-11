@@ -28,6 +28,10 @@ public class FileContentSort {
             inputStream.close();
 
             //输出到新的文件中
+            File target = new File(targetFile);
+            if (!target.exists()) {
+                target.createNewFile();
+            }
             FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
