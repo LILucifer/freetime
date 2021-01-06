@@ -24,8 +24,8 @@ public class SpringCloudEurekaConsumerApplication {
     }
 
 
-//    @Bean
-//    @LoadBalanced
+    @Bean
+    @LoadBalanced
     public RestTemplate initRestTemplate(RestTemplateBuilder builder){
         return builder.build();
     }

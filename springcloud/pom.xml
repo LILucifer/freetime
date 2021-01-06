@@ -19,6 +19,7 @@
         <module>spring-cloud-eureka-client1</module>
         <module>spring-cloud-eureka-client2</module>
         <module>spring-cloud-eureka-consumer</module>
+        <module>spring-cloud-hystrix</module>
     </modules>
 
 

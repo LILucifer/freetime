@@ -9,7 +9,7 @@ eureka:
 
 spring:
   application:
-    name: eureka-consumer
+    name: eureka-hytrix-consumer
 
 #
 #consumer-server:
