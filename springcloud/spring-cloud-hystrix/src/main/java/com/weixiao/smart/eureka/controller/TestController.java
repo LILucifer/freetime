@@ -1,5 +1,6 @@
-package controller;
+package com.weixiao.smart.eureka.controller;
 
+import com.weixiao.smart.eureka.command.CustomerHystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class TestController {
     private RestTemplate restTemplate;
 
     @GetMapping("/test")
-    public Object test() {
-        return restTemplate.getForEntity("http://EUREKA-CLINET/clientTest/test", String.class);
+    public Object testCustomerCommand() {
+        return new CustomerHystrixCommand(restTemplate).execute();
     }
 }

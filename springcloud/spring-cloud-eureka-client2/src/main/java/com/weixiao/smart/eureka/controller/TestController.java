@@ -3,6 +3,8 @@ package com.weixiao.smart.eureka.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
+
 /**
  * @author lishixiang0925@126.com.
  * @description (这里用一句话描述这个类的作用)
@@ -13,7 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @RequestMapping("/test")
     public String test() {
-
+        Random random = new Random();
+        int time = random.nextInt(140);
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "this is client2 test";
     }
 }
