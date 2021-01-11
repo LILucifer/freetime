@@ -1,8 +1,10 @@
 package com.weixiao.smart.eureka;
 
+import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -25,4 +27,7 @@ public class SpringHystrixApplication {
     public RestTemplate initRestTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
+
+
+
 }

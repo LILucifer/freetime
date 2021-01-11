@@ -1,8 +1,10 @@
 package com.weixiao.smart.eureka.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.GET;
 import java.util.Random;
 
 /**
@@ -13,10 +15,10 @@ import java.util.Random;
 @RequestMapping("/clientTest")
 @RestController
 public class TestController {
-    @RequestMapping("/test")
+    @GetMapping("/test")
     public String test() {
         Random random = new Random();
-        int time = random.nextInt(140);
+        int time = random.nextInt(120);
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
