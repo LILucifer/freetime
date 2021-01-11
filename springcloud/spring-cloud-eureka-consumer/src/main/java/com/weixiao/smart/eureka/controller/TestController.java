@@ -19,6 +19,6 @@ public class TestController {
 
     @GetMapping("/test")
     public Object test() {
-        return restTemplate.getForEntity("http://EUREKA-CLINET/clientTest/test", String.class);
+        return restTemplate.getForEntity("http://EUREKA-CLIENT/clientTest/test", String.class);
     }
 }

@@ -11,4 +11,4 @@ eureka:
 
 spring:
   application:
-    name: eureka-clinet
+    name: eureka-client

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @Created 2021-01-10 23:25.
  */
 @Component
-@FeignClient(name = "eureka-clinet")
+@FeignClient(name = "eureka-client")
 public interface EurekaClientService {
 
     @RequestMapping(value = "/clientTest/test",method = RequestMethod.GET)

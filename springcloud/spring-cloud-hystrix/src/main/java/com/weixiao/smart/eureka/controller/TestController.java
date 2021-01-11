@@ -43,7 +43,7 @@ public class TestController {
     )
     @GetMapping("/test2")
     public Object  testHystrixsByAnnotation(){
-        return  restTemplate.getForEntity("http://EUREKA-CLINET/clientTest/test", String.class);
+        return  restTemplate.getForEntity("http://EUREKA-CLIENT/clientTest/test", String.class);
     }
 
 

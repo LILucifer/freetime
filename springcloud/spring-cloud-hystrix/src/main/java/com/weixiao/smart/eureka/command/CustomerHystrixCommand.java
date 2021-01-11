@@ -26,7 +26,7 @@ public class CustomerHystrixCommand extends HystrixCommand<Object> {
 
     @Override
     protected Object run() throws Exception {
-        return restTemplate.getForEntity("http://EUREKA-CLINET/clientTest/test", String.class);
+        return restTemplate.getForEntity("http://EUREKA-CLIENT/clientTest/test", String.class);
     }
 
     @Override
