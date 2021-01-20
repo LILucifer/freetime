@@ -1,6 +1,7 @@
 package com.weixiao.smart.feigndefine.configure;
 
 import com.weixiao.smart.feigndefine.annotation.FeignClient;
+import com.weixiao.smart.feigndefine.annotation.FeignGet;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -18,7 +19,12 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Set;
 
 /**
@@ -40,11 +46,15 @@ public class FeignRegister implements ImportBeanDefinitionRegistrar , Environmen
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         //扫描目标注解(@FeignClient  @FeignGet) 并做相应的装载处理
-        registerFeignRequest(registry);
+        try {
+            registerFeignRequest(registry);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void registerFeignRequest(BeanDefinitionRegistry registry) {
+    private void registerFeignRequest(BeanDefinitionRegistry registry)  throws ClassNotFoundException {
         ClassPathScanningCandidateComponentProvider classScanner = getScanner();
 //        scanner.setEnvironment(environment);
         classScanner.setResourceLoader(resourceLoader);
@@ -59,13 +69,15 @@ public class FeignRegister implements ImportBeanDefinitionRegistrar , Environmen
                 String className = beanDefinition.getBeanClassName();
                 AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) beanDefinition;
                 //创建代理Bean对象 并注册到Spring IOC 容器中
-                ((DefaultListableBeanFactory)this.beanFactory).registerBeanDefinition(className , );
+                ((DefaultListableBeanFactory)this.beanFactory).registerSingleton(className ,  createBeanDefinition(annotatedBeanDefinition));
 
             }
         }
 
 
     }
+
+
 
     private ClassPathScanningCandidateComponentProvider getScanner() {
 
@@ -85,6 +97,31 @@ public class FeignRegister implements ImportBeanDefinitionRegistrar , Environmen
         };
     }
 
+    //穿件动态代理
+    private Object createBeanDefinition(AnnotatedBeanDefinition annotatedBeanDefinition) throws ClassNotFoundException {
+        AnnotationMetadata metadata = annotatedBeanDefinition.getMetadata();
+        String className = annotatedBeanDefinition.getBeanClassName();
+        Class<?> target = Class.forName(metadata.getClassName());
+        InvocationHandler invocationHandler = new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                //通过获取注解
+                FeignClient feignClient = target.getAnnotation(FeignClient.class);
+                String baseUrl = feignClient.baseUrl();
+                if (!StringUtils.isEmpty(baseUrl) && method.getAnnotation(FeignGet.class) != null) {
+                    FeignGet feignGet = method.getAnnotation(FeignGet.class);
+                    String url = feignGet.url();
+                    String requesturl = baseUrl + url;
+                    String result = new RestTemplate().getForObject(requesturl, String.class);
+                    return result;
+                }
+                throw new IllegalAccessException("不符合要求");
+            }
+        };
+
+
+        return Proxy.newProxyInstance(this.classLoader,new Class[]{target} , invocationHandler);
+    }
     @Override
     public void setEnvironment(Environment environment) {
 

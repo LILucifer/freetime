@@ -1,5 +1,6 @@
 package com.weixiao.smart.feign.service;
 
+import com.weixiao.smart.feign.failback.FeignFailBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @Created 2021-01-10 23:25.
  */
 @Component
-@FeignClient(name = "eureka-client")
+@FeignClient(name = "eureka-client" ,fallback = FeignFailBack.class)
 public interface EurekaClientService {
 
     @RequestMapping(value = "/clientTest/test",method = RequestMethod.GET)

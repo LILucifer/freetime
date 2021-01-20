@@ -9,3 +9,15 @@ eureka:
 spring:
   application:
     name: spring-cloud-feign
+feign:
+  hystrix:
+    enabled: true
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread :
+            timeoutInMilliseconds: 80

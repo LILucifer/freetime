@@ -1,0 +1,37 @@
+
+server:
+  port: 8088
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://127.0.0.1:10003/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
+
+spring:
+  application:
+    name: spring-cloud-zuul
+zuul:
+  host:
+    # 代理普通的http请求超时时长
+    connect-timeout-millis: 2000
+    # socket超时
+    socket-timeout-millis: 1000
+    # http连接池大小
+    max-total-connections: 200
+    # 每个host最大连接数
+    max-per-route-connections: 20
+    ##信号量模式
+  ribbon-isolation-strategy: semaphore
+   ##最大信号量
+  semaphore:
+    max-semaphores: 100
+   ##路由代理
+  routes:
+    route1:
+      path: /Verke/**
+      url: http://localhost:8082
+    route2:
+      path: /Verke2/**
+      serviceId: eureka-client
+
+

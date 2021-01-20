@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
  * @Created 2021-01-12 06:29.
  */
 @Component
-@FeignClient(baseUrl = "http://EUREKA-CLIENT")
+//@FeignClient(baseUrl = "http://EUREKA-CLIENT")
+@FeignClient(baseUrl = "http://www.baidu.com:80")
 public interface FeignDefinedService {
 
-    @FeignGet(url = "/clientTest/test")
+    @FeignGet(url = "/index.html")
     String testMethod();
 }

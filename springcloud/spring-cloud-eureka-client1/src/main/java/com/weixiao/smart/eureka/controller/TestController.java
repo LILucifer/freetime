@@ -17,7 +17,7 @@ public class TestController {
     @GetMapping("/test")
     public String test() {
         Random random = new Random();
-        int time = random.nextInt(120);
+        int time = random.nextInt(150);
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
