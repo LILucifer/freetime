@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
  * @Created 2020-09-11 08:01.
  */
 
-@SpringBootApplication
-@RibbonClients(
-        @RibbonClient(value = "consumer-server")
-)
+//@SpringBootApplication
+//@RibbonClients(
+//        @RibbonClient(value = "consumer-server")
+//)
 public class SpringCloudRibbonConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringCloudRibbonConsumerApplication.class, args);

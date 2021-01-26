@@ -5,16 +5,16 @@ eureka:
   client:
     service-url:
       defaultZone : http://127.0.0.1:10003/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
-    enabled: false
+#    enabled: false
 
 spring:
   application:
     name: eureka-consumer
 
-
-consumer-server:
-  ribbon:
-    eureka:
-      enabled: false
-    listOfServers: http://127.0.0.1:8081,http://127.0.0.1:8082
-    ServerListRefreshInterval: 15000
+#
+#consumer-server:
+#  ribbon:
+#    eureka:
+#      enabled: false
+#    listOfServers: http://127.0.0.1:8081,http://127.0.0.1:8082
+#    ServerListRefreshInterval: 15000

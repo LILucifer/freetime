@@ -1,13 +1,14 @@
 server:
   port: 8081
+  address: 0.0.0.0
 
 eureka:
   client:
     service-url:
-      defaultZone : http://127.0.0.1:10000/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
+      defaultZone : http://127.0.0.1:10003/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
     eureka-connection-idle-timeout-seconds: 60
-    enabled: false
+    enabled: true
 
 spring:
   application:
-    name: eureka-clinet
+    name: eureka-client

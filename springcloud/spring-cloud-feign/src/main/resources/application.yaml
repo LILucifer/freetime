@@ -1,0 +1,23 @@
+server:
+  port: 8086
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://127.0.0.1:10003/eureka/,http://127.0.0.1:10001/eureka/,http://127.0.0.1:10002/eureka/
+
+spring:
+  application:
+    name: spring-cloud-feign
+feign:
+  hystrix:
+    enabled: true
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread :
+            timeoutInMilliseconds: 80
