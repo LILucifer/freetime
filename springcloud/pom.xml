@@ -21,6 +21,9 @@
         <module>spring-cloud-eureka-consumer</module>
         <module>spring-cloud-hystrix</module>
         <module>spring-cloud-hystrixs-dashboard</module>
+        <module>spring-cloud-stream</module>
+        <module>spring-cloud-bus</module>
+        <module>spring-cloud-config-server</module>
     </modules>
 
 
