@@ -17,7 +17,7 @@
         <lombok.version>1.18.0</lombok.version>
         <log4j.version>2.11.1</log4j.version>
         <bcprov.version>1.60</bcprov.version>
-        <commons.io.version>2.6</commons.io.version>
+        <commons.io.version>2.7</commons.io.version>
         <json-lib.version>2.4</json-lib.version>
 
     </properties>
