@@ -26,9 +26,21 @@ public class ResponsibilityChainByEnum {
     }
 
     enum MailHandler{
+        A{
+             String handler(Mail mail) {
+                return "A handler mail";
+            }
+        },
+        B{
+             String handler(Mail mail) {
+                return "B handler mail";
+            }
+        };
+
+        abstract String  handler(Mail mail) ;
 
     }
 
-    public stat
+//    public stat
 
 }

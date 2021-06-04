@@ -3,6 +3,14 @@ server:
 spring:
   application:
     name: spring-cloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/LILucifer/freetime.git
 
 
 
+student:
+  user-name: xxx-who am i
+  user-id: first time to user spring cloud config

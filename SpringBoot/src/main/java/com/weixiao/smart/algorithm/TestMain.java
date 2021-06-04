@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
+import static java.lang.Thread.State.RUNNABLE;
+
 /**
  * @author lishixiang0925@126.com.
  * @description (这里用一句话描述这个类的作用)
@@ -16,7 +18,13 @@ public class TestMain {
 //        testQueueStack();
 //        testReverseData();
 //        testSortByStack();
-        testHanotaProblem();
+//        testHanotaProblem();
+        test();
+    }
+
+    public static void test(){
+        MinValueStack minValueStack = new MinValueStack();
+        System.out.println(minValueStack.hashCode());
 
     }
 
