@@ -1,0 +1,18 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: service-consumer
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.server-addr}
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+
+
+service-provider:
+  user-info:
+    user-id: 0001
+    user-name: tom

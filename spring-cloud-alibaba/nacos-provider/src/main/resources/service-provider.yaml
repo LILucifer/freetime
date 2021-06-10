@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: service-provider
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.server-addr}
+        file-extension: yaml
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+
+
+service-provider:
+  user-info:
+    user-id: 0001
+    user-name: tom
