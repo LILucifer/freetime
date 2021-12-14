@@ -24,7 +24,7 @@
     <properties>
         <lombok.version>1.18.0</lombok.version>
         <hessian.version>4.0.51</hessian.version>
-        <log4j.version>2.11.1</log4j.version>
+        <log4j.version>2.16.0</log4j.version>
     </properties>
     <dependencies>
         <dependency>
