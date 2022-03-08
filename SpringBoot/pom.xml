@@ -42,7 +42,7 @@
         <poi-excelant.version>3.8</poi-excelant.version>
         <poi-ooxml.version>3.8-beta4</poi-ooxml.version>
         <poi-ooxml-schemas.version>3.8-beta4</poi-ooxml-schemas.version>
-        <poi-scratchpad.version>3.8-beta4</poi-scratchpad.version>
+        <poi-scratchpad.version>5.2.1</poi-scratchpad.version>
 
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
         <commons-lang.version>2.6</commons-lang.version>
