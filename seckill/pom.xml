@@ -34,7 +34,7 @@
         <activemq.core.version>5.7.0</activemq.core.version>
         <activemq.pool.version>5.12.1</activemq.pool.version>
         <spring.date.redis.version>1.6.2.RELEASE</spring.date.redis.version>
-        <alibaba.json.version>1.2.49</alibaba.json.version>
+        <alibaba.json.version>1.2.83</alibaba.json.version>
         <xbean.version>4.6</xbean.version>
         <javax.servlet.version>3.0.1</javax.servlet.version>
         <commons.lang3.version>3.8</commons.lang3.version>
