@@ -38,7 +38,7 @@
 
     <properties>
         <!-- poi -->
-        <poi.version>3.8-beta4</poi.version>
+        <poi.version>4.1.1</poi.version>
         <poi-excelant.version>3.8</poi-excelant.version>
         <poi-ooxml.version>3.8-beta4</poi-ooxml.version>
         <poi-ooxml-schemas.version>3.8-beta4</poi-ooxml-schemas.version>
